@@ -58,7 +58,7 @@ public class Util {
 	}
 	
 	
-	public static int gerarIdAluguel() {
+	public static int gerarIdCliente() {
 		if(manager.query(Cliente.class).size()==0) 
 			//classe nao registrada no banco
 			return 1;
@@ -71,6 +71,24 @@ public class Util {
 		if(resultados.size()>0) {
 			Cliente cliente = resultados.get(0);    //max
 			return cliente.getId() + 1;
+		}
+		else
+			return 1; 	//nenhum objeto aluguel encontrado
+	}
+	
+	public static int gerarIdPesagem() {
+		if(manager.query(Pesagem.class).size()==0) 
+			//classe nao registrada no banco
+			return 1;
+		
+		Query q = manager.query();
+		q.constrain(Pesagem.class);
+		q.descend("id").orderDescending();
+		List<Pesagem> resultados = q.execute();
+
+		if(resultados.size()>0) {
+			Pesagem pesagem = resultados.get(0);    //max
+			return pesagem.getId() + 1;
 		}
 		else
 			return 1; 	//nenhum objeto aluguel encontrado
