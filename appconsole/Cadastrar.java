@@ -48,6 +48,19 @@ public class Cadastrar {
 			manager.store(janta);
 			manager.commit();
 			
+			// Objetos 'Pesagem'
+			Pesagem pesagemUm = new Pesagem(Util.gerarIdPesagem(), 0.500, almoco, clienteUm);
+			manager.store(pesagemUm);
+			manager.commit();
+			
+			Pesagem pesagemDois = new Pesagem(Util.gerarIdPesagem(), 0.450, janta, clienteDois);
+			manager.store(pesagemDois);
+			manager.commit();
+			
+			Pesagem pesagemTres = new Pesagem(Util.gerarIdPesagem(), 0.150, cafe, clienteTres);
+			manager.store(pesagemTres);
+			manager.commit();
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
