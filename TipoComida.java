@@ -1,10 +1,10 @@
 package model;
 
-public class TipoPesagem {
+public class TipoComida {
 	private String nome;
 	private double preco;
 	
-	public TipoPesagem(String nome, double preco) {
+	public TipoComida(String nome, double preco) {
 		this.nome = nome;
 		this.preco = preco;
 	}
