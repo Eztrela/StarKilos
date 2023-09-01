@@ -49,17 +49,17 @@ public class Cadastrar {
 			manager.commit();
 			
 			// Objetos 'Pesagem'
-			Pesagem pesagemUm = new Pesagem(Util.gerarIdPesagem(), 0.500, almoco, clienteUm);
+			Pesagem pesagemUm = new Pesagem(Util.gerarIdPesagem(), 0.500, almoco, clienteUm, "21/07/2023");
 			clienteUm.adicionarPesagem(pesagemUm);
 			manager.store(pesagemUm);
 			manager.commit();
 			
-			Pesagem pesagemDois = new Pesagem(Util.gerarIdPesagem(), 0.450, janta, clienteDois);
+			Pesagem pesagemDois = new Pesagem(Util.gerarIdPesagem(), 0.450, janta, clienteDois, "13/11/2021");
 			clienteDois.adicionarPesagem(pesagemDois);
 			manager.store(pesagemDois);
 			manager.commit();
 			
-			Pesagem pesagemTres = new Pesagem(Util.gerarIdPesagem(), 0.150, cafe, clienteTres);
+			Pesagem pesagemTres = new Pesagem(Util.gerarIdPesagem(), 0.150, cafe, clienteTres, "01/09/2023");
 			clienteTres.adicionarPesagem(pesagemTres);
 			manager.store(pesagemTres);
 			manager.commit();

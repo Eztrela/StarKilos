@@ -14,7 +14,17 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id  +",Pesagens" + "["+ this.listaDePesagem +"]"+"]";
+		String textoExibido = "Cliente [id=" + id  +",Pesagens" + "[";
+		for (Pesagem p: listaDePesagem) {
+			textoExibido += "id=" + Integer.toString(p.getId()) +
+							",peso=" + Double.toString(p.getPeso()) + 
+							",tipoDaComida=" + p.getTipoDaComida() +
+							",cliente=" + p.getCliente().getId() +
+							",data=" + p.getData();
+		}
+		textoExibido += "]";
+		
+		return textoExibido;
 	}
 
 	public int getId() {
