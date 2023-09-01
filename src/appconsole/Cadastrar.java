@@ -36,11 +36,11 @@ public class Cadastrar {
 			manager.commit();
 			
 			// Objetos 'TipoComida'
-			TipoComida cafe = new TipoComida("Cafe", 11.0);
+			TipoComida cafe = new TipoComida("Café", 11.0);
 			manager.store(cafe);
 			manager.commit();
 			
-			TipoComida almoco = new TipoComida("Almoco", 13.0);
+			TipoComida almoco = new TipoComida("Almoço", 13.0);
 			manager.store(almoco);
 			manager.commit();
 			
@@ -50,14 +50,17 @@ public class Cadastrar {
 			
 			// Objetos 'Pesagem'
 			Pesagem pesagemUm = new Pesagem(Util.gerarIdPesagem(), 0.500, almoco, clienteUm);
+			clienteUm.adicionarPesagem(pesagemUm);
 			manager.store(pesagemUm);
 			manager.commit();
 			
 			Pesagem pesagemDois = new Pesagem(Util.gerarIdPesagem(), 0.450, janta, clienteDois);
+			clienteDois.adicionarPesagem(pesagemDois);
 			manager.store(pesagemDois);
 			manager.commit();
 			
 			Pesagem pesagemTres = new Pesagem(Util.gerarIdPesagem(), 0.150, cafe, clienteTres);
+			clienteTres.adicionarPesagem(pesagemTres);
 			manager.store(pesagemTres);
 			manager.commit();
 
