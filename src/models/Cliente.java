@@ -17,10 +17,10 @@ public class Cliente {
 		String textoExibido = "Cliente [id=" + id  +",Pesagens" + "[";
 		for (Pesagem p: listaDePesagem) {
 			textoExibido += "id=" + Integer.toString(p.getId()) +
-							",peso=" + Double.toString(p.getPeso()) + 
-							",tipoDaComida=" + p.getTipoDaComida() +
-							",cliente=" + p.getCliente().getId() +
-							",data=" + p.getData();
+							" ,peso=" + Double.toString(p.getPeso()) + 
+							" ,tipoDaComida=" + p.getTipoDaComida() +
+							" ,cliente=" + p.getCliente().getId() +
+							" ,data=" + p.getData();
 		}
 		textoExibido += "]";
 		
