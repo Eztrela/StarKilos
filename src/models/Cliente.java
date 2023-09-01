@@ -14,7 +14,7 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + "]";
+		return "Cliente [id=" + id  +",Pesagens" + "["+ this.listaDePesagem +"]"+"]";
 	}
 
 	public int getId() {
@@ -31,6 +31,10 @@ public class Cliente {
 
 	public void setListaDePesagem(List<Pesagem> listaDePesagem) {
 		this.listaDePesagem = listaDePesagem;
+	}
+	
+	public void adicionarPesagem(Pesagem pesagem) {
+		this.listaDePesagem.add(pesagem);
 	}
 
 }
