@@ -36,5 +36,16 @@ public class Cliente {
 	public void adicionarPesagem(Pesagem pesagem) {
 		this.listaDePesagem.add(pesagem);
 	}
+	
+	public Pesagem localizar(int idPesagem) {
+		for (Pesagem p: this.getListaDePesagem())
+			if (p.getId() == idPesagem)
+				return p;
+		return null;
+	}
+	
+	public boolean removerPesagem(Pesagem p) {
+		return this.listaDePesagem.remove(p);
+	}
 
 }
