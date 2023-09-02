@@ -27,7 +27,7 @@ public class Alterar {
 			queryComidas.constrain(TipoComida.class);
 			List<TipoComida> Comidas = queryComidas.execute();
 
-			if (clientes.size() > 0) {
+			if (clientes.size() > 0 && Comidas.size() > 0) {
 				Cliente cliente1 = clientes.get(0);
 				TipoComida cafe = tiposComida.get(0);
 				TipoComida Comidas = tiposComida.get(1);
@@ -43,20 +43,24 @@ public class Alterar {
 			queryAlmoco.constrain(TipoComida.class);
 			queryAlmoco.descend("nome").constrain("Almoco");
 			List<TipoComida> Almocos = queryAlmoco.execute();
-			TipoComida almoco = Almocos.get(0);
-			almoco.setNome("Almoco Final de Semana");
-			manager.store(almoco);
-			manager.commit();
-			
-			//Alterando preço do TipoComida Janta para 25.0
+			if (Almocos.size() > 0) {
+				TipoComida almoco = Almocos.get(0);
+				almoco.setNome("Almoco Final de Semana");
+				manager.store(almoco);
+				manager.commit();
+			}
+
+			// Alterando preço do TipoComida Janta para 25.0
 			Query queryJanta = manager.query();
 			queryJanta.constrain(TipoComida.class);
 			queryJanta.descend("nome").constrain("Janta");
 			List<TipoComida> Jantas = queryJanta.execute();
-			TipoComida janta = Jantas.get(0);
-			janta.setPreco(25.0);
-			manager.store(janta);
-			manager.commit();
+			if (Jantas.size() > 0) {
+				TipoComida janta = Jantas.get(0);
+				janta.setPreco(25.0);
+				manager.store(janta);
+				manager.commit();
+			}
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
