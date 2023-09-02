@@ -14,7 +14,17 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id  +",Pesagens" + "["+ this.listaDePesagem +"]"+"]";
+		String textoExibido = "Cliente [id=" + id  +",Pesagens" + "[";
+		for (Pesagem p: listaDePesagem) {
+			textoExibido += "id=" + Integer.toString(p.getId()) +
+							" ,peso=" + Double.toString(p.getPeso()) + 
+							" ,tipoDaComida=" + p.getTipoDaComida() +
+							" ,cliente=" + p.getCliente().getId() +
+							" ,data=" + p.getData();
+		}
+		textoExibido += "]";
+		
+		return textoExibido;
 	}
 
 	public int getId() {
@@ -35,6 +45,17 @@ public class Cliente {
 	
 	public void adicionarPesagem(Pesagem pesagem) {
 		this.listaDePesagem.add(pesagem);
+	}
+	
+	public Pesagem localizar(int idPesagem) {
+		for (Pesagem p: this.getListaDePesagem())
+			if (p.getId() == idPesagem)
+				return p;
+		return null;
+	}
+	
+	public boolean removerPesagem(Pesagem p) {
+		return this.listaDePesagem.remove(p);
 	}
 
 }
