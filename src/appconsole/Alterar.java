@@ -23,45 +23,40 @@ public class Alterar {
 			querryCliente1.descend("id").constrain(1);
 			List<Cliente> clientes = querryCliente1.execute();
 			// consultar Amoco
-			Query queryAlmoco = manager.query();
-			queryAlmoco.constrain(TipoComida.class);
-			List<TipoComida> tiposComida = queryAlmoco.execute();
+			Query queryComidas = manager.query();
+			queryComidas.constrain(TipoComida.class);
+			List<TipoComida> Comidas = queryComidas.execute();
 
 			if (clientes.size() > 0) {
 				Cliente cliente1 = clientes.get(0);
 				TipoComida cafe = tiposComida.get(0);
-				TipoComida almoco = tiposComida.get(1);
-				Pesagem pesagem1 = new Pesagem(Util.gerarIdPesagem(), 0.300,almoco,cliente1);
-				Pesagem pesagem2 = new Pesagem(Util.gerarIdPesagem(), 0.900,cafe,cliente1);
+				TipoComida Comidas = tiposComida.get(1);
+				Pesagem pesagem1 = new Pesagem(Util.gerarIdPesagem(), 0.300, Comidas, cliente1);
+				Pesagem pesagem2 = new Pesagem(Util.gerarIdPesagem(), 0.900, cafe, cliente1);
 				cliente1.adicionarPesagem(pesagem1);
+				manager.store(cliente1);
+				manager.commit();
 			}
-			
-			
-			//TODO alterar nome TipoComida e Preço
-			// consultar Amoco
+
+			// Alterando nome do TipoComida Almoço para "Almoço Fina de Semana"
 			Query queryAlmoco = manager.query();
 			queryAlmoco.constrain(TipoComida.class);
 			queryAlmoco.descend("nome").constrain("Almoco");
-			List<TipoComida> almocos = queryAlmoco.execute();
-
-			if (resultados1.size() > 0 && resultados2.size() > 0) {
-				Carro carro = resultados1.get(0);
-				Cliente cliente = resultados2.get(0);
-
-				int id;
-				Aluguel aluguel = new Aluguel("01/05/2023", "10/05/2023", 100.0);
-				id = Util.gerarIdAluguel();
-				aluguel.setId(id);
-				aluguel.setCarro(carro);
-				aluguel.setCliente(cliente);
-
-				carro.adicionar(aluguel);
-				cliente.adicionar(aluguel);
-				carro.setAlugado(false);
-
-				manager.store(aluguel);
-				manager.commit();
-			}
+			List<TipoComida> Almocos = queryAlmoco.execute();
+			TipoComida almoco = Almocos.get(0);
+			almoco.setNome("Almoco Final de Semana");
+			manager.store(almoco);
+			manager.commit();
+			
+			//Alterando preço do TipoComida Janta para 25.0
+			Query queryJanta = manager.query();
+			queryJanta.constrain(TipoComida.class);
+			queryJanta.descend("nome").constrain("Janta");
+			List<TipoComida> Jantas = queryJanta.execute();
+			TipoComida janta = Jantas.get(0);
+			janta.setPreco(25.0);
+			manager.store(janta);
+			manager.commit();
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -72,6 +67,6 @@ public class Alterar {
 	}
 
 	public static void main(String[] args) {
-		new Alterar1();
+		new Alterar();
 	}
 }
