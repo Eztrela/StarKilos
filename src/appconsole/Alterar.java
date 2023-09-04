@@ -25,12 +25,12 @@ public class Alterar {
 			// consultar Comidas
 			Query queryComidas = manager.query();
 			queryComidas.constrain(TipoComida.class);
-			List<TipoComida> Comidas = queryComidas.execute();
+			List<TipoComida> comidas = queryComidas.execute();
 
 			if (clientes.size() > 0 && Comidas.size() > 0) {
 				Cliente cliente1 = clientes.get(0);
-				TipoComida cafe = Comidas.get(0);
-				TipoComida almoco = Comidas.get(1);
+				TipoComida cafe = comidas.get(0);
+				TipoComida almoco = comidas.get(1);
 				Pesagem pesagem1 = new Pesagem(Util.gerarIdPesagem(), 0.300, almoco, cliente1);
 				Pesagem pesagem2 = new Pesagem(Util.gerarIdPesagem(), 0.900, cafe, cliente1);
 				cliente1.adicionarPesagem(pesagem1);
