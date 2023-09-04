@@ -18,20 +18,20 @@ public class Alterar {
 			System.out.println("Cliente Realizando Pesagens");
 
 			// consultar cliente 1
-			Query querryCliente1 = manager.query();
-			querryCliente1.constrain(Cliente.class);
-			querryCliente1.descend("id").constrain(1);
-			List<Cliente> clientes = querryCliente1.execute();
-			// consultar Amoco
+			Query queryCliente1 = manager.query();
+			queryCliente1.constrain(Cliente.class);
+			queryCliente1.descend("id").constrain(1);
+			List<Cliente> clientes = queryCliente1.execute();
+			// consultar Comidas
 			Query queryComidas = manager.query();
 			queryComidas.constrain(TipoComida.class);
 			List<TipoComida> Comidas = queryComidas.execute();
 
 			if (clientes.size() > 0 && Comidas.size() > 0) {
 				Cliente cliente1 = clientes.get(0);
-				TipoComida cafe = tiposComida.get(0);
-				TipoComida Comidas = tiposComida.get(1);
-				Pesagem pesagem1 = new Pesagem(Util.gerarIdPesagem(), 0.300, Comidas, cliente1);
+				TipoComida cafe = Comidas.get(0);
+				TipoComida almoco = Comidas.get(1);
+				Pesagem pesagem1 = new Pesagem(Util.gerarIdPesagem(), 0.300, almoco, cliente1);
 				Pesagem pesagem2 = new Pesagem(Util.gerarIdPesagem(), 0.900, cafe, cliente1);
 				cliente1.adicionarPesagem(pesagem1);
 				manager.store(cliente1);
@@ -42,9 +42,9 @@ public class Alterar {
 			Query queryAlmoco = manager.query();
 			queryAlmoco.constrain(TipoComida.class);
 			queryAlmoco.descend("nome").constrain("Almoco");
-			List<TipoComida> Almocos = queryAlmoco.execute();
-			if (Almocos.size() > 0) {
-				TipoComida almoco = Almocos.get(0);
+			List<TipoComida> almocos = queryAlmoco.execute();
+			if (almocos.size() > 0) {
+				TipoComida almoco = almocos.get(0);
 				almoco.setNome("Almoco Final de Semana");
 				manager.store(almoco);
 				manager.commit();
@@ -54,9 +54,9 @@ public class Alterar {
 			Query queryJanta = manager.query();
 			queryJanta.constrain(TipoComida.class);
 			queryJanta.descend("nome").constrain("Janta");
-			List<TipoComida> Jantas = queryJanta.execute();
-			if (Jantas.size() > 0) {
-				TipoComida janta = Jantas.get(0);
+			List<TipoComida> jantas = queryJanta.execute();
+			if (jantas.size() > 0) {
+				TipoComida janta = jantas.get(0);
 				janta.setPreco(25.0);
 				manager.store(janta);
 				manager.commit();
