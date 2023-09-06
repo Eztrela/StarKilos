@@ -27,13 +27,18 @@ public class Alterar {
 			queryComidas.constrain(TipoComida.class);
 			List<TipoComida> comidas = queryComidas.execute();
 
-			if (clientes.size() > 0 && Comidas.size() > 0) {
+			if (clientes.size() > 0 && comidas.size() > 0) {
 				Cliente cliente1 = clientes.get(0);
 				TipoComida cafe = comidas.get(0);
 				TipoComida almoco = comidas.get(1);
-				Pesagem pesagem1 = new Pesagem(Util.gerarIdPesagem(), 0.300, almoco, cliente1);
-				Pesagem pesagem2 = new Pesagem(Util.gerarIdPesagem(), 0.900, cafe, cliente1);
+
+				Pesagem pesagem1 = new Pesagem(Util.gerarIdPesagem(), 0.300, almoco, cliente1, "03/09/2023");
 				cliente1.adicionarPesagem(pesagem1);
+				manager.store(cliente1);
+				manager.commit();
+
+				Pesagem pesagem2 = new Pesagem(Util.gerarIdPesagem(), 0.900, cafe, cliente1, "03/09/2023");
+				cliente1.adicionarPesagem(pesagem2);
 				manager.store(cliente1);
 				manager.commit();
 			}

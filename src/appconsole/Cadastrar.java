@@ -36,11 +36,11 @@ public class Cadastrar {
 			manager.commit();
 			
 			// Objetos 'TipoComida'
-			TipoComida cafe = new TipoComida("Café", 11.0);
+			TipoComida cafe = new TipoComida("Cafe", 11.0);
 			manager.store(cafe);
 			manager.commit();
 			
-			TipoComida almoco = new TipoComida("Almoço", 13.0);
+			TipoComida almoco = new TipoComida("Almoco", 13.0);
 			manager.store(almoco);
 			manager.commit();
 			
