@@ -22,7 +22,7 @@ public class Cadastrar {
 			
 			System.out.println("Cadastrando...");
 			
-			// Objetos 'Cliente'
+			// Criação e inserção de clientes no banco
 			Cliente clienteUm = new Cliente(Util.gerarIdCliente());
 			manager.store(clienteUm);
 			manager.commit();
@@ -35,7 +35,7 @@ public class Cadastrar {
 			manager.store(clienteDois);
 			manager.commit();
 			
-			// Objetos 'TipoComida'
+			// Criação e inserção de tipos de comida no banco
 			TipoComida cafe = new TipoComida("Cafe", 11.0);
 			manager.store(cafe);
 			manager.commit();
@@ -48,7 +48,7 @@ public class Cadastrar {
 			manager.store(janta);
 			manager.commit();
 			
-			// Objetos 'Pesagem'
+			// Criação e inserção de pesagens no banco
 			Pesagem pesagemUm = new Pesagem(Util.gerarIdPesagem(), 0.500, almoco, clienteUm, "21/07/2023");
 			clienteUm.adicionarPesagem(pesagemUm);
 			manager.store(pesagemUm);
