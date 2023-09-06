@@ -45,22 +45,22 @@ public class Util {
 		config.common().objectClass(TipoComida.class).cascadeOnUpdate(true);;
 		config.common().objectClass(TipoComida.class).cascadeOnActivate(true);
 		
-		//conexao local
+		// conexao local
 		manager = Db4oEmbedded.openFile(config, "banco.db4o");
 		return manager;
 	}
 	
 	public static void desconectar() {
-		if(manager!=null) {
+		if (manager != null) {
 			manager.close();
-			manager=null;
+			manager = null;
 		}
 	}
 	
 	
 	public static int gerarIdCliente() {
 		if(manager.query(Cliente.class).size()==0) 
-			//classe nao registrada no banco
+			// classe cliente nao registrada no banco
 			return 1;
 		
 		Query q = manager.query();
@@ -69,16 +69,16 @@ public class Util {
 		List<Cliente> resultados = q.execute();
 
 		if(resultados.size()>0) {
-			Cliente cliente = resultados.get(0);    //max
+			Cliente cliente = resultados.get(0);  // cliente de maior ID
 			return cliente.getId() + 1;
 		}
 		else
-			return 1; 	//nenhum objeto aluguel encontrado
+			return 1; 	// nenhum objeto cliente encontrado
 	}
 	
 	public static int gerarIdPesagem() {
 		if(manager.query(Pesagem.class).size()==0) 
-			//classe nao registrada no banco
+			// classe pesagem nao registrada no banco
 			return 1;
 		
 		Query q = manager.query();
@@ -87,11 +87,11 @@ public class Util {
 		List<Pesagem> resultados = q.execute();
 
 		if(resultados.size()>0) {
-			Pesagem pesagem = resultados.get(0);    //max
+			Pesagem pesagem = resultados.get(0);  // pesagem de maior ID
 			return pesagem.getId() + 1;
 		}
 		else
-			return 1; 	//nenhum objeto aluguel encontrado
+			return 1; 	// nenhum objeto pesagem encontrado
 	}
 
 }

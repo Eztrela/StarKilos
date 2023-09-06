@@ -16,13 +16,14 @@ public class Alterar {
 		try {
 			manager = Util.conectarBanco();
 			System.out.println("Cliente Realizando Pesagens");
+			
+			// Adicionando duas pesagens ao cliente de ID 1 
 
-			// consultar cliente 1
 			Query queryCliente1 = manager.query();
 			queryCliente1.constrain(Cliente.class);
 			queryCliente1.descend("id").constrain(1);
 			List<Cliente> clientes = queryCliente1.execute();
-			// consultar Comidas
+
 			Query queryComidas = manager.query();
 			queryComidas.constrain(TipoComida.class);
 			List<TipoComida> comidas = queryComidas.execute();
@@ -43,7 +44,8 @@ public class Alterar {
 				manager.commit();
 			}
 
-			// Alterando nome do TipoComida Almoço para "Almoço Fina de Semana"
+			// Alterando nome do TipoComida Almoco para "Almoco Final de Semana"
+
 			Query queryAlmoco = manager.query();
 			queryAlmoco.constrain(TipoComida.class);
 			queryAlmoco.descend("nome").constrain("Almoco");
@@ -56,6 +58,7 @@ public class Alterar {
 			}
 
 			// Alterando preço do TipoComida Janta para 25.0
+
 			Query queryJanta = manager.query();
 			queryJanta.constrain(TipoComida.class);
 			queryJanta.descend("nome").constrain("Janta");

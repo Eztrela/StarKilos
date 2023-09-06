@@ -32,8 +32,8 @@ public class Remover2 {
 				// removendo do banco as pesagens associadas aquele cliente
 				for (Pesagem p : listaDePesagensDoCliente) {
 					manager.delete(p);
-					manager.commit();
 				}
+				manager.commit();
 				
 				// removendo o relacionamento entre o cliente e cada pesagem
 				// associada a ele

@@ -40,9 +40,9 @@ public class Pesagem {
 
 	@Override
 	public String toString() {
-		return "Pesagem [id=" + id +
+		return "[id=" + id +
 				", peso=" + peso +
-				", tipoDaComida=" + tipoDaComida +
+				", TipoComida=" + tipoDaComida +
 				", cliente=" + cliente.getId() +
 				", data=" + data + "]";
 	}

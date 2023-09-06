@@ -27,7 +27,7 @@ public class TipoComida {
 
 	@Override
 	public String toString() {
-		return "TipoComida [nome=" + nome + ", preco=" + preco + "]";
+		return "[nome=" + nome + ", preco=" + preco + "]";
 	}
 	
 	

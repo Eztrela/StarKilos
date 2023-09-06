@@ -40,8 +40,8 @@ public class Remover3 {
 						cliente.removerPesagem(pesagem);
 						manager.delete(pesagem);
 						manager.store(cliente);
-						manager.commit();
 					}
+					manager.commit();
 				}
 				
 				manager.delete(almoco);
