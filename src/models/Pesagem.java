@@ -9,9 +9,8 @@ public class Pesagem {
 	
 	public Pesagem() {}
 	
-	public Pesagem(int id, double peso, TipoComida tipoDaComida, Cliente cliente, String data) {
+	public Pesagem(double peso, TipoComida tipoDaComida, Cliente cliente, String data) {
 		super();
-		this.id = id;
 		this.peso = peso;
 		this.tipoDaComida = tipoDaComida;
 		this.cliente = cliente;
@@ -20,6 +19,10 @@ public class Pesagem {
 
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public double getPeso() {
