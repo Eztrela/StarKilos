@@ -7,8 +7,7 @@ public class Cliente {
 	private int id;
 	private List<Pesagem> listaDePesagem;
 	
-	public Cliente(int id) {
-		this.id = id;
+	public Cliente() {
 		this.listaDePesagem = new ArrayList<>();
 	}
 
