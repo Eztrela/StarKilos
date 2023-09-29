@@ -6,15 +6,9 @@ package regras_negocio;
  *
  */
 
-<<<<<<< HEAD
 import java.util.List;
-=======
 import java.time.LocalDateTime;
-<<<<<<< Updated upstream
-=======
 import java.util.List;
->>>>>>> Stashed changes
->>>>>>> 95e2f67 (criando fachada e metodos de cadastrar cliente e pesagem)
 
 import daodb4o.DAO;
 import daodb4o.DAOCliente;
@@ -41,29 +35,22 @@ public class Fachada {
 	public static void finalizar(){
 		DAO.close();
 	}
-<<<<<<< HEAD
 
 
-	public static Pesagem cadastrarPesagem(String placa, String modelo) throws Exception{
-=======
-<<<<<<< Updated upstream
-=======
-
-
-	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, String nomeCliente) throws Exception{
+	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, String idCliente) throws Exception{
 		DAO.begin();
 		TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
-		if (tipoComida = null)
+		if (tipoComida == null)
 			throw new Exception("Não existe Tipo de comida com esse nome:" + nomeTipoComida);
-		Cliente cliente = daoCliente.read(nomeCliente);
-		if (cliente = null)
-			throw new Exception("Não existe Cliente com esse nome:" + nomeCliente);
+		Cliente cliente = daoCliente.read(idCliente);
+		if (cliente == null)
+			throw new Exception("Não existe Cliente com esse nome:" + idCliente);
 		
 		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente,LocalDateTime.now().toString());
 
-		daoPesagem.create(Pesagem);
+		daoPesagem.create(pesagem);
 		DAO.commit();
-		return Pesagem;
+		return pesagem;
 	}
 
 	public static Cliente clienteRealizaPesagem(String cpf, String placa, double diaria, String data1, String data2) throws Exception{
@@ -92,6 +79,8 @@ public class Fachada {
 		return Cliente;
 	}
 
+
+
 	public static void devolverPesagem(String placa) throws Exception{
 		DAO.begin();
 		Pesagem car =  daoPesagem.read(placa);
@@ -135,17 +124,19 @@ public class Fachada {
 		DAO.commit();
 	}
 
-	public static TipoComida cadastrarTipoComida(String nome, String cpf) throws Exception{
+	public TipoComida cadastrarTipoComida(String nome, double preco) throws Exception {
 		DAO.begin();
-		TipoComida cli = daoTipoComida.read(cpf);
-		if (cli!=null)
-			throw new Exception("Pessoa ja cadastrado:" + cpf);
-		cli = new TipoComida(nome, cpf);
+		if (daoTipoComida.read(nome) != null) 
+			throw new Exception("O tipo de comida de nome '" + nome + "' ja existe");
 
-		daoTipoComida.create(cli);
+		TipoComida tipoComida = new TipoComida(nome, preco);
+		daoTipoComida.create(tipoComida);
+
 		DAO.commit();
-		return cli;
+		return tipoComida;
+
 	}
+
 	public static void excluirTipoComida(String cpf) throws Exception{
 		DAO.begin();
 		TipoComida cli =  daoTipoComida.read(cpf);
@@ -249,223 +240,4 @@ public class Fachada {
 		return daoTipoComida.read(cpf);
 	}
 
->>>>>>> Stashed changes
-	
-	public Pesagem cadastrarPesagem(double peso, int idCliente, String nomeTipoComida) {
->>>>>>> 95e2f67 (criando fachada e metodos de cadastrar cliente e pesagem)
-		DAO.begin();
-		Pesagem Pesagem = daoPesagem.read(placa);
-		if (Pesagem!=null)
-			throw new Exception("Pesagem ja cadastrado:" + placa);
-		Pesagem = new Pesagem(placa, modelo);
-
-		daoPesagem.create(Pesagem);
-		DAO.commit();
-		return Pesagem;
-	}
-
-	public static Cliente realizarPesagem(String cpf, String placa, double diaria, String data1, String data2) throws Exception{
-		DAO.begin();
-		Pesagem car =  daoPesagem.read(placa);
-		if(car==null) 
-			throw new Exception ("Pesagem incorreto para Cliente "+placa);
-		if(car.isAlugado()) 
-			throw new Exception ("Pesagem ja esta alugado:"+placa);
-
-		TipoComida cli = daoTipoComida.read(cpf);
-		if(cli==null) 
-			throw new Exception ("TipoComida incorreto para Cliente " + cpf);
-
-		Cliente Cliente = new Cliente(data1,data2, diaria);
-		Cliente.setPesagem(car);
-		Cliente.setTipoComida(cli);
-		car.adicionar(Cliente);
-		car.setAlugado(true);
-		cli.adicionar(Cliente);
-
-		daoCliente.create(Cliente);
-		daoPesagem.update(car);
-		daoTipoComida.update(cli);
-		DAO.commit();
-		return Cliente;
-	}
-
-	public static void devolverPesagem(String placa) throws Exception{
-		DAO.begin();
-		Pesagem car =  daoPesagem.read(placa);
-		if(car==null) 
-			throw new Exception ("Pesagem incorreto para devolucao");
-
-		if(car.getAlugueis().isEmpty()) 
-			throw new Exception ("Pesagem nao pode ser devolvido - nao esta alugado");
-
-		car.setAlugado(false);
-		// obter o ultimo Cliente do Pesagem
-		Cliente alug = car.getAlugueis().get(car.getAlugueis().size()-1);
-		alug.setFinalizado(true);
-
-		daoPesagem.update(car);
-		DAO.commit();
-	}
-
-	public static void excluirPesagem(String placa) throws Exception{
-		DAO.begin();
-		Pesagem car =  daoPesagem.read(placa);
-		if(car==null) 
-			throw new Exception ("Pesagem incorreto para exclusao " + placa);
-
-		if(! car.isAlugado()) 
-			throw new Exception ("Pesagem alugado nao pode ser excluido " + placa);
-
-
-		//alterar os TipoComidas dos alugueis do Pesagem
-		for (Cliente a : car.getAlugueis()) {
-			TipoComida cli = a.getTipoComida();
-			cli.remover(a);
-			//atualizar o TipoComida no banco
-			daoTipoComida.update(cli);
-			//apagar o Cliente
-			daoCliente.delete(a);
-		}
-
-		//apagar Pesagem e seus alugueis em cascata
-		daoPesagem.delete(car);
-		DAO.commit();
-	}
-
-	public static TipoComida cadastrarTipoComida(String nome, String cpf) throws Exception{
-		DAO.begin();
-		TipoComida cli = daoTipoComida.read(cpf);
-		if (cli!=null)
-			throw new Exception("Pessoa ja cadastrado:" + cpf);
-		cli = new TipoComida(nome, cpf);
-
-		daoTipoComida.create(cli);
-		DAO.commit();
-		return cli;
-	}
-	public static void excluirTipoComida(String cpf) throws Exception{
-		DAO.begin();
-		TipoComida cli =  daoTipoComida.read(cpf);
-		if(cli==null) 
-			throw new Exception ("TipoComida incorreto para exclusao " + cpf);
-
-		if(!cli.getAlugueis().isEmpty()) {
-			List<Cliente> alugueis = cli.getAlugueis();
-			Cliente ultimo = alugueis.get(alugueis.size()-1);
-			if(ultimo !=null && !ultimo.isFinalizado()) 
-				throw new Exception ("Nao pode excluir TipoComida com Pesagem alugado: " + cpf);
-		}
-		
-		//alterar os Pesagems dos alugueis 
-		for (Cliente a : cli.getAlugueis()) {
-			Pesagem car = a.getPesagem();
-			car.remover(a);
-			daoPesagem.update(car);
-			daoCliente.delete(a);
-		}
-
-		//apagar Pesagem e seus alugueis em cascata
-		daoTipoComida.delete(cli);
-		DAO.commit();
-	}
-
-	public static void excluirCliente(int id) throws Exception{
-		DAO.begin();
-		Cliente Cliente =  daoCliente.read(id);
-		if(Cliente==null) 
-			throw new Exception ("Cliente incorreto para exclusao " + id);
-
-		if(! Cliente.isFinalizado()) 
-			throw new Exception ("Cliente nao finalizado nao pode ser excluido " + id);
-
-		//alterar os TipoComidas dos alugueis do Pesagem
-		TipoComida cli = Cliente.getTipoComida();
-		Pesagem car = Cliente.getPesagem();
-		cli.remover(Cliente);
-		car.remover(Cliente);
-
-		daoTipoComida.update(cli);
-		daoPesagem.update(car);
-		daoCliente.delete(Cliente);
-		DAO.commit();
-	}
-
-	public static List<TipoComida>  listarTipoComidas(){
-		DAO.begin();
-		List<TipoComida> resultados =  daoTipoComida.readAll();
-		DAO.commit();
-		return resultados;
-	} 
-
-	public static List<Pesagem>  listarPesagems(){
-		DAO.begin();
-		List<Pesagem> resultados =  daoPesagem.readAll();
-		DAO.commit();
-		return resultados;
-	}
-
-	public static List<Cliente> listarAlugueis(){
-		DAO.begin();
-		List<Cliente> resultados =  daoCliente.readAll();
-		DAO.commit();
-		return resultados;
-	}
-
-	public static List<Usuario>  listarUsuarios(){
-		DAO.begin();
-		List<Usuario> resultados =  daousuario.readAll();
-		DAO.commit();
-		return resultados;
-	} 
-
-	public static List<Cliente> alugueisModelo(String modelo){	
-		DAO.begin();
-		List<Cliente> resultados =  daoCliente.alugueisModelo(modelo);
-		DAO.commit();
-		return resultados;
-	}
-
-	public static List<Cliente> alugueisFinalizados(){	
-		DAO.begin();
-		List<Cliente> resultados =  daoCliente.alugueisFinalizados();
-		DAO.commit();
-		return resultados;
-	}
-
-	public static List<Pesagem>  PesagemsNAlugueis(int n){	
-		DAO.begin();
-		List<Pesagem> resultados =  daoPesagem.PesagemsNAlugueis(n);
-		DAO.commit();
-		return resultados;
-	}
-
-	public static Pesagem localizarPesagem(String placa){
-		return daoPesagem.read(placa);
-	}
-	public static TipoComida localizarTipoComida(String cpf){
-		return daoTipoComida.read(cpf);
-	}
-
-	
-	//------------------Usuario------------------------------------
-	public static Usuario cadastrarUsuario(String nome, String senha) throws Exception{
-		DAO.begin();
-		Usuario usu = daousuario.read(nome);
-		if (usu!=null)
-			throw new Exception("Usuario ja cadastrado:" + nome);
-		usu = new Usuario(nome, senha);
-
-		daousuario.create(usu);
-		DAO.commit();
-		return usu;
-	}
-	public static Usuario localizarUsuario(String nome, String senha) {
-		Usuario usu = daousuario.read(nome);
-		if (usu==null)
-			return null;
-		if (! usu.getSenha().equals(senha))
-			return null;
-		return usu;
-	}
 }
