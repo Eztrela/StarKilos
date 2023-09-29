@@ -6,7 +6,6 @@ package regras_negocio;
  *
  */
 
-import java.util.List;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,14 +36,16 @@ public class Fachada {
 	}
 
 
-	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, String idCliente) throws Exception{
+	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, String idCliente) throws Exception {
 		DAO.begin();
 		TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
 		if (tipoComida == null)
-			throw new Exception("Não existe Tipo de comida com esse nome:" + nomeTipoComida);
+			throw new Exception("Não existe tipo de comida com esse nome:" + nomeTipoComida);
 		Cliente cliente = daoCliente.read(idCliente);
 		if (cliente == null)
-			throw new Exception("Não existe Cliente com esse nome:" + idCliente);
+			throw new Exception("Não existe cliente com esse nome:" + idCliente);
+		if (peso == 0.0)
+			throw new Exception("Uma pesagem não pode ter peso igual a 0.");
 		
 		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente,LocalDateTime.now().toString());
 
