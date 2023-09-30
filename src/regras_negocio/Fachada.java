@@ -41,11 +41,11 @@ public class Fachada {
 		TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
 		
 		if (tipoComida == null)
-			throw new Exception("Não existe tipo de comida com esse nome:" + nomeTipoComida);
+			throw new Exception("Não existe tipo de comida cujo nome é '" + nomeTipoComida + "'");
 		
 		Cliente cliente = daoCliente.read(idCliente);
 		if (cliente == null)
-			throw new Exception("Não existe cliente com esse nome:" + idCliente);
+			throw new Exception("Não existe cliente cujo ID é " + idCliente + ".");
 		
 		if (peso <= 0.0)
 			throw new Exception("Uma pesagem não pode ter peso menor ou igual a 0.");
@@ -86,10 +86,18 @@ public class Fachada {
 		
 	}
 
-	public TipoComida cadastrarTipoComida(String nome, double preco) throws Exception {
+	public static TipoComida cadastrarTipoComida(String nome, double preco) throws Exception {
 		DAO.begin();
+				
+		nome = nome.trim();
+		if (nome.isBlank())
+			throw new Exception("O nome de um tipo de comida não pode ser vazio.");
+
 		if (daoTipoComida.read(nome) != null) 
-			throw new Exception("O tipo de comida de nome '" + nome + "' ja existe");
+			throw new Exception("O tipo de comida de nome '" + nome + "' ja existe.");
+		
+		if (preco <= 0.0)
+			throw new Exception("O preço deve ser maior do que 0.");
 
 		TipoComida tipoComida = new TipoComida(nome, preco);
 		daoTipoComida.create(tipoComida);
@@ -97,7 +105,19 @@ public class Fachada {
 		DAO.commit();
 		return tipoComida;
 	}
-
+	
+	public static List<TipoComida> listarTiposComida() {
+		DAO.begin();
+		List<TipoComida> resultados = daoTipoComida.readAll();
+		DAO.commit();
+		
+		return resultados;
+	}
+	
+	public static TipoComida localizarTipoComida(String nome) {
+		return daoTipoComida.read(nome);
+	}
+	
 	// public static Cliente clienteRealizaPesagem(String cpf, String placa, double diaria, String data1, String data2) throws Exception{
 	// 	DAO.begin();
 	// 	Pesagem car =  daoPesagem.read(placa);
