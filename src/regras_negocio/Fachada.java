@@ -39,19 +39,51 @@ public class Fachada {
 	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, String idCliente) throws Exception {
 		DAO.begin();
 		TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
+		
 		if (tipoComida == null)
 			throw new Exception("Não existe tipo de comida com esse nome:" + nomeTipoComida);
+		
 		Cliente cliente = daoCliente.read(idCliente);
 		if (cliente == null)
 			throw new Exception("Não existe cliente com esse nome:" + idCliente);
-		if (peso == 0.0)
-			throw new Exception("Uma pesagem não pode ter peso igual a 0.");
 		
-		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente,LocalDateTime.now().toString());
+		if (peso <= 0.0)
+			throw new Exception("Uma pesagem não pode ter peso menor ou igual a 0.");
+		
+		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente, LocalDateTime.now().toString());
 
 		daoPesagem.create(pesagem);
 		DAO.commit();
+		
 		return pesagem;
+	}
+	
+	public static List<Pesagem> listarPesagens() {
+		DAO.begin();
+		List<Pesagem> resultados = daoPesagem.readAll();
+		DAO.commit();
+		
+		return resultados;
+	}
+	
+	public static Pesagem localizarPesagem(int id) {
+		return daoPesagem.read(id);
+	}
+	
+	public static void excluirPesagem(int id) throws Exception {
+		DAO.begin();
+		Pesagem pesagem = daoPesagem.read(id);
+		
+		if (pesagem == null)
+			throw new Exception("A pesagem de ID " + id + " não foi localizada.");
+		
+		Cliente cliente = pesagem.getCliente();
+		cliente.removerPesagem(pesagem);
+		
+		daoCliente.update(cliente);
+		daoPesagem.delete(pesagem);
+		DAO.commit();
+		
 	}
 
 	public TipoComida cadastrarTipoComida(String nome, double preco) throws Exception {
