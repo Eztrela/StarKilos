@@ -108,7 +108,7 @@ public class Fachada {
 		DAO.begin();
 		TipoComida comida = daoTipoComida.read(nomeAtual);
 		if (comida == null) {
-			throw new Exception("O Tipo de Comida de nome " + nome + " nao foi localizado");
+			throw new Exception("O Tipo de Comida de nome " + nomeAtual + " nao foi localizado");
 		}
 		comida.setNome(novoNome);
 		daoTipoComida.update(comida);
