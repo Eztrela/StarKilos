@@ -100,22 +100,25 @@ public class Fachada {
 		DAO.commit();
 	}
 
-	public static Cliente localizarCliente(int id){
+	public static Cliente localizarCliente(int id) {
 		return daoCliente.read(id);
 	}
 
-	public static void updateTipoComida(String nomeAtual, String novoNome) throws Exception{
+	public static void updateTipoComida(String nomeAtual, String novoNome) throws Exception {
 		DAO.begin();
 		TipoComida comida = daoTipoComida.read(nomeAtual);
+		if (comida == null) {
+			throw new Exception("O Tipo de Comida de nome " + nome + " nao foi localizado");
+		}
 		comida.setNome(novoNome);
 		daoTipoComida.update(comida);
 		DAO.commit();
 	}
 
-	public static void updateTipoComida(String nome, double novoPreco)  throws Exception{
+	public static void updateTipoComida(String nome, double novoPreco) throws Exception {
 		DAO.begin();
 		TipoComida comida = daoTipoComida.read(nome);
-		if (comida == null){
+		if (comida == null) {
 			throw new Exception("O Tipo de Comida de nome " + nome + " nao foi localizado");
 		}
 		comida.setPreco(novoPreco);
@@ -123,16 +126,16 @@ public class Fachada {
 		DAO.commit();
 	}
 
-	public static void removerTipoComida(String nome) throws Exception{
+	public static void removerTipoComida(String nome) throws Exception {
 		DAO.begin();
 		TipoComida comida = daoTipoComida.read(nome);
-		if (comida == null){
+		if (comida == null) {
 			throw new Exception("O Tipo de Comida de nome " + nome + " nao foi localizado");
 		}
 		List<Pesagem> pesagens = daoPesagem.readAll();
-		if(pesagens.size()>0){
-			for(Pesagem pesagem: pesagens){
-				if(pesagem.getTipoDaComida().equals(comida)){
+		if (pesagens.size() > 0) {
+			for (Pesagem pesagem : pesagens) {
+				if (pesagem.getTipoDaComida().equals(comida)) {
 					List<Pesagem> listaPesagensCliente = pesagem.getCliente().getListaDePesagem();
 					listaPesagensCliente.remove(pesagem);
 					daoPesagem.delete(pesagem);
