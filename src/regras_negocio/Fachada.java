@@ -100,6 +100,10 @@ public class Fachada {
 		DAO.commit();
 	}
 
+	public static Cliente localizarCliente(int id){
+		return daoCliente.read(id);
+	}
+
 	public static void updateTipoComida(String nomeAtual, String novoNome) throws Exception{
 		DAO.begin();
 		TipoComida comida = daoTipoComida.read(nomeAtual);
