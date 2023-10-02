@@ -138,21 +138,26 @@ public class TelaConsulta {
 				else
 					switch (index) {
 						case 0:
-							String data = JOptionPane.showInputDialog("digite o modelo");
-							List<Pesagem> resultado1 = Fachada.pesagensPorData(data);
-							listagemPesagem(resultado1);
+							String data = JOptionPane.showInputDialog("Digite a data");
+							List<Pesagem> pesagensNaData = Fachada.pesagensPorData(data);
+							listagemPesagem(pesagensNaData);
 							break;
 						case 1:
-							String idCliente = JOptionPane.showInputDialog("digite o modelo");
-							int idClienteint = Integer.parseInt(idCliente);
-							List<Pesagem> resultado2 = Fachada.pesagensPorCliente(idClienteint);
-							listagemPesagem(resultado2);
+							String idCliente = JOptionPane.showInputDialog("Digite o ID do cliente");
+							if (idCliente != null) {								
+								int idClienteint = Integer.parseInt(idCliente);
+								List<Pesagem> pesagens = Fachada.pesagensPorCliente(idClienteint);
+								System.out.println(pesagens);
+								listagemPesagem(pesagens);
+							}
 							break;
 						case 2:
-							String n = JOptionPane.showInputDialog("digite N");
-							int numero = Integer.parseInt(n);
-							List<Cliente> resultado3 = Fachada.clientesComNPesagens(numero);
-							listagemCliente(resultado3);
+							String quantidadeN = JOptionPane.showInputDialog("Digite a quantidade N");
+							if (quantidadeN != null) {								
+								int numero = Integer.parseInt(quantidadeN);
+								List<Cliente> clientes = Fachada.clientesComNPesagens(numero);
+								listagemCliente(clientes);
+							}
 							break;
 
 					}
@@ -165,8 +170,8 @@ public class TelaConsulta {
 		comboboxConsultas = new JComboBox();
 		comboboxConsultas.setToolTipText("selecione a consulta");
 		comboboxConsultas.setModel(new DefaultComboBoxModel(new String[] {
-				"Pesagens por cliente",
 				"Pesagens por data",
+				"Pesagens por cliente",
 				"Clientes com N pesagens" }));
 		comboboxConsultas.setBounds(21, 10, 513, 22);
 		frame.getContentPane().add(comboboxConsultas);

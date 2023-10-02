@@ -1,13 +1,7 @@
 package regras_negocio;
 
-/**********************************
- * IFPB - Curso Superior de Tec. em Sist. para Internet
- * POB - Persistencia de Objetos
- * Prof. Fausto Ayres
- *
- */
-
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import daodb4o.DAO;
@@ -51,9 +45,14 @@ public class Fachada {
 
 		if (peso <= 0.0)
 			throw new Exception("Uma pesagem não pode ter peso menor ou igual a 0.");
-
-		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente, LocalDateTime.now().toString());
-
+		
+		String pattern = "dd/MM/yyyy";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String data = simpleDateFormat.format(new Date());
+		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente, data);
+		
+		cliente.adicionarPesagem(pesagem);
+		daoCliente.update(cliente);
 		daoPesagem.create(pesagem);
 		DAO.commit();
 

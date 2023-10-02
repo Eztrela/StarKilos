@@ -242,6 +242,7 @@ public class TelaPesagem {
 			model.addColumn("Tipo de comida");
 			model.addColumn("Peso (KG)");
 			model.addColumn("ID do cliente");
+			model.addColumn("Data");
 
 			//adicionar linhas no model
 			for(Pesagem pesagem : listaDePesagens)
@@ -249,13 +250,14 @@ public class TelaPesagem {
 						pesagem.getId(),
 						pesagem.getTipoDaComida(),
 						pesagem.getPeso(),
-						pesagem.getCliente().getId()
+						pesagem.getCliente().getId(),
+						pesagem.getData()
 				});
 
 			//atualizar model no table (visualizacao)
 			table.setModel(model);
 
-			lblResultados.setText("resultados: "+listaDePesagens.size()+ " objetos");
+			lblResultados.setText("resultados: "+ listaDePesagens.size() + " objetos");
 		}
 		catch(Exception erro){
 			lblMensagens.setText(erro.getMessage());

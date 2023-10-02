@@ -36,12 +36,12 @@ public class DAOCliente extends DAO<Cliente> {
 		manager.store(obj);
 	}
 
-	public List<Cliente> clienteNPesagens(int n) {
-		System.out.println("Clientes com mais de 2 pesagens");
+	public List<Cliente> clienteNPesagens(int quantidade) {
 		Query queryClientes = manager.query();
 		queryClientes.constrain(Cliente.class);
-		queryClientes.constrain(new Filtro1(n));
+		queryClientes.constrain(new Filtro1(quantidade));
 		List<Cliente> clientes = queryClientes.execute();
+		System.out.println(clientes);
 		return clientes;
 	}
 
@@ -50,15 +50,15 @@ public class DAOCliente extends DAO<Cliente> {
 	// --------------------------------------------
 
 	class Filtro1 implements Evaluation {
-		private int n;
+		private int quantidade;
 
-		public Filtro1(int n) {
-			this.n = n;
+		public Filtro1(int quantidade) {
+			this.quantidade = quantidade;
 		}
 
 		public void evaluate(Candidate candidate) {
 			Cliente cliente = (Cliente) candidate.getObject();
-			if (cliente.getListaDePesagem().size() > n) {
+			if (cliente.getListaDePesagem().size() > quantidade) {
 				candidate.include(true);
 			} else {
 				candidate.include(false);

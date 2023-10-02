@@ -80,7 +80,7 @@ public class TelaTipoComida {
 		frame.setModal(true);
 
 		frame.setResizable(false);
-		frame.setTitle("Carro");
+		frame.setTitle("Tipo de comida");
 		frame.setBounds(100, 100, 729, 385);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
