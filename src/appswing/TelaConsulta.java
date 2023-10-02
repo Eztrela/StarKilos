@@ -87,6 +87,7 @@ public class TelaConsulta {
 			public void windowOpened(WindowEvent e) {
 				Fachada.inicializar();
 			}
+
 			@Override
 			public void windowClosing(WindowEvent e) {
 				Fachada.finalizar();
@@ -101,7 +102,8 @@ public class TelaConsulta {
 		tableDeResultados.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lblResultados.setText("selecionado="+ (String) tableDeResultados.getValueAt( tableDeResultados.getSelectedRow(), 0));
+				lblResultados.setText(
+						"selecionado=" + (String) tableDeResultados.getValueAt(tableDeResultados.getSelectedRow(), 0));
 			}
 		});
 		tableDeResultados.setGridColor(Color.BLACK);
@@ -117,7 +119,7 @@ public class TelaConsulta {
 		tableDeResultados.setShowGrid(true);
 		tableDeResultados.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-		lblMensagens = new JLabel("");		//label de mensagem
+		lblMensagens = new JLabel(""); // label de mensagem
 		lblMensagens.setForeground(Color.BLUE);
 		lblMensagens.setBounds(31, 214, 688, 14);
 		frame.getContentPane().add(lblMensagens);
@@ -131,25 +133,27 @@ public class TelaConsulta {
 		btnConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = comboboxConsultas.getSelectedIndex();
-				if(index<0)
+				if (index < 0)
 					lblResultados.setText("consulta nao selecionada");
 				else
-					switch(index) {
-					case 0: 
-						List<Pesagem> resultado1 = Fachada.alugueisFinalizados();
-						listagemAluguel(resultado1);
-						break;
-					case 1: 
-						String modelo = JOptionPane.showInputDialog("digite o modelo");
-						List<Aluguel> resultado2 = Fachada.alugueisModelo(modelo);
-						listagemAluguel(resultado2);
-						break;
-					case 2: 
-						String n = JOptionPane.showInputDialog("digite N");
-						int numero = Integer.parseInt(n);
-						List<Carro> resultado3 = Fachada.carrosNAlugueis(numero);
-						listagemCarro(resultado3);
-						break;
+					switch (index) {
+						case 0:
+							String data = JOptionPane.showInputDialog("digite o modelo");
+							List<Pesagem> resultado1 = Fachada.pesagensPorData(data);
+							listagemPesagem(resultado1);
+							break;
+						case 1:
+							String idCliente = JOptionPane.showInputDialog("digite o modelo");
+							int idClienteint = Integer.parseInt(idCliente);
+							List<Pesagem> resultado2 = Fachada.pesagensPorCliente(idClienteint);
+							listagemPesagem(resultado2);
+							break;
+						case 2:
+							String n = JOptionPane.showInputDialog("digite N");
+							int numero = Integer.parseInt(n);
+							List<Cliente> resultado3 = Fachada.clientesComNPesagens(numero);
+							listagemCliente(resultado3);
+							break;
 
 					}
 
@@ -163,59 +167,64 @@ public class TelaConsulta {
 		comboboxConsultas.setModel(new DefaultComboBoxModel(new String[] {
 				"Pesagens por cliente",
 				"Pesagens por data",
-				"Clientes com N pesagens"}));
+				"Clientes com N pesagens" }));
 		comboboxConsultas.setBounds(21, 10, 513, 22);
 		frame.getContentPane().add(comboboxConsultas);
 	}
 
-	public void listagemAluguel(List<Aluguel> lista) {
-		try{
+	public void listagemPesagem(List<Pesagem> lista) {
+		try {
 			// o model armazena todas as linhas e colunas do table
 			DefaultTableModel model = new DefaultTableModel();
 
-			//adicionar colunas no model
-			model.addColumn("id");
-			model.addColumn("nome");
-			model.addColumn("placa");
-			model.addColumn("data inicial");
-			model.addColumn("data final");
-			model.addColumn("total a pagar");
-			model.addColumn("finalizado");
+			// adicionar colunas no model
+			model.addColumn("ID da Pesagem");
+			model.addColumn("Tipo da Comida");
+			model.addColumn("Peso (KG)");
+			model.addColumn("ID do cliente");
 
-			//adicionar linhas no model
-			for(Aluguel aluguel : lista) {
-				model.addRow(new Object[]{aluguel.getId(), aluguel.getCliente().getNome(), aluguel.getCarro().getPlaca(), aluguel.getDatainicio(), aluguel.getDatafim(), aluguel.getValor(), aluguel.isFinalizado()});
+			// adicionar linhas no model
+			for (Pesagem pesagem : lista) {
+				model.addRow(new Object[] {
+						pesagem.getId(),
+						pesagem.getTipoDaComida(),
+						pesagem.getPeso(),
+						pesagem.getCliente().getId()
+				});
 			}
-			//atualizar model no table (visualizacao)
+			// atualizar model no table (visualizacao)
 			tableDeResultados.setModel(model);
 
-			lblResultados.setText("resultados: "+lista.size()+ " objetos");
-		}
-		catch(Exception erro){
+			lblResultados.setText("resultados: " + lista.size() + " objetos");
+		} catch (Exception erro) {
 			lblMensagens.setText(erro.getMessage());
 		}
 	}
-	
-	public void listagemCarro(List<Carro> lista) {
-		try{
+
+	public void listagemCliente(List<Cliente> lista) {
+		try {
 			// model armazena todas as linhas e colunas do table
 			DefaultTableModel model = new DefaultTableModel();
 
-			//adicionar colunas no model
-			model.addColumn("placa");
-			model.addColumn("modelo");
-			model.addColumn("alugado");
+			// adicionar colunas no model
+			model.addColumn("ID");
+			model.addColumn("Lista de pesagens");
 
-			//adicionar linhas no model
-			for(Carro car : lista) {
-				model.addRow(new Object[]{car.getPlaca(), car.getModelo(), car.isAlugado()} );
+			// adicionar linhas no model
+			for (Cliente cliente : lista) {
+				List<Pesagem> listaDePesagens = cliente.getListaDePesagem();
+
+				if (listaDePesagens.size() > 0)
+					for (Pesagem pesagem : listaDePesagens)
+						model.addRow(new Object[] { cliente.getId(), pesagem });
+				else
+					model.addRow(new Object[] { cliente.getId(), "Sem pesagens" });
 			}
-			//atualizar model no table (visualizacao)
+			// atualizar model no table (visualizacao)
 			tableDeResultados.setModel(model);
 
-			lblResultados.setText("resultados: "+lista.size()+ " objetos");
-		}
-		catch(Exception erro){
+			lblResultados.setText("resultados: " + lista.size() + " objetos");
+		} catch (Exception erro) {
 			lblMensagens.setText(erro.getMessage());
 		}
 	}

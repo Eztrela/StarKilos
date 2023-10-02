@@ -41,63 +41,63 @@ public class Fachada {
 	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, int idCliente) throws Exception {
 		DAO.begin();
 		TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
-		
+
 		if (tipoComida == null)
 			throw new Exception("Não existe tipo de comida cujo nome é '" + nomeTipoComida + "'");
-		
+
 		Cliente cliente = daoCliente.read(idCliente);
 		if (cliente == null)
 			throw new Exception("Não existe cliente cujo ID é " + idCliente + ".");
-		
+
 		if (peso <= 0.0)
 			throw new Exception("Uma pesagem não pode ter peso menor ou igual a 0.");
-		
+
 		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente, LocalDateTime.now().toString());
 
 		daoPesagem.create(pesagem);
 		DAO.commit();
-		
+
 		return pesagem;
 	}
-	
+
 	public static List<Pesagem> listarPesagens() {
 		DAO.begin();
 		List<Pesagem> resultados = daoPesagem.readAll();
 		DAO.commit();
-		
+
 		return resultados;
 	}
-	
+
 	public static Pesagem localizarPesagem(int id) {
 		return daoPesagem.read(id);
 	}
-	
+
 	public static void excluirPesagem(int id) throws Exception {
 		DAO.begin();
 		Pesagem pesagem = daoPesagem.read(id);
-		
+
 		if (pesagem == null)
 			throw new Exception("A pesagem de ID " + id + " não foi localizada.");
-		
+
 		Cliente cliente = pesagem.getCliente();
 		cliente.removerPesagem(pesagem);
-		
+
 		daoCliente.update(cliente);
 		daoPesagem.delete(pesagem);
 		DAO.commit();
-		
+
 	}
 
 	public static TipoComida cadastrarTipoComida(String nome, double preco) throws Exception {
 		DAO.begin();
-				
+
 		nome = nome.trim();
 		if (nome.isBlank())
 			throw new Exception("O nome de um tipo de comida não pode ser vazio.");
 
-		if (daoTipoComida.read(nome) != null) 
+		if (daoTipoComida.read(nome) != null)
 			throw new Exception("O tipo de comida de nome '" + nome + "' ja existe.");
-		
+
 		if (preco <= 0.0)
 			throw new Exception("O preço deve ser maior do que 0.");
 
@@ -115,15 +115,15 @@ public class Fachada {
 		DAO.commit();
 		return cliente;
 	}
-	
+
 	public static List<TipoComida> listarTiposComida() {
 		DAO.begin();
 		List<TipoComida> resultados = daoTipoComida.readAll();
 		DAO.commit();
-		
+
 		return resultados;
 	}
-	
+
 	public static TipoComida localizarTipoComida(String nome) {
 		return daoTipoComida.read(nome);
 	}
@@ -199,15 +199,15 @@ public class Fachada {
 		daoTipoComida.delete(comida);
 		DAO.commit();
 	}
-	
-	public static List<Usuario>  listarUsuarios(){
+
+	public static List<Usuario> listarUsuarios() {
 		DAO.begin();
-		List<Usuario> resultados =  daoUsuario.readAll();
+		List<Usuario> resultados = daoUsuario.readAll();
 		DAO.commit();
 		return resultados;
 	}
-	
-	public static Usuario cadastrarUsuario(String nome, String senha) throws Exception{
+
+	public static Usuario cadastrarUsuario(String nome, String senha) throws Exception {
 		DAO.begin();
 		Usuario usuario = daoUsuario.read(nome);
 		if (usuario != null)
@@ -218,6 +218,7 @@ public class Fachada {
 		DAO.commit();
 		return usuario;
 	}
+
 	public static Usuario localizarUsuario(String nome, String senha) {
 		Usuario usuario = daoUsuario.read(nome);
 		if (usuario == null)
@@ -225,5 +226,26 @@ public class Fachada {
 		if (!usuario.getSenha().equals(senha))
 			return null;
 		return usuario;
+	}
+
+	public static List<Pesagem> pesagensPorData(String data) {
+		DAO.begin();
+		List<Pesagem> pesagensNaData = daoPesagem.pesagensPorData(data);
+		DAO.commit();
+		return pesagensNaData;
+	}
+
+	public static List<Pesagem> pesagensPorCliente(int idDoCliente) {
+		DAO.begin();
+		List<Pesagem> pesagensDoCliente = daoPesagem.pesagensPorCliente(idDoCliente);
+		DAO.commit();
+		return pesagensDoCliente;
+	}
+
+	public static List<Cliente> clientesComNPesagens(int n) {
+		DAO.begin();
+		List<Cliente> clientesNPEsagens = daoCliente.clienteNPesagens(n);
+		DAO.commit();
+		return clientesNPEsagens;
 	}
 }

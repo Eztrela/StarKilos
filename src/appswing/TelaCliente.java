@@ -70,7 +70,7 @@ public class TelaCliente {
 	private void initialize() {
 		frameCliente = new JDialog();
 		frameCliente.setModal(true);
-		
+
 		frameCliente.setResizable(false);
 		frameCliente.setTitle("Cliente");
 		frameCliente.setBounds(100, 100, 729, 310);
@@ -82,6 +82,7 @@ public class TelaCliente {
 				Fachada.inicializar();
 				listagem();
 			}
+
 			@Override
 			public void windowClosing(WindowEvent e) {
 				Fachada.finalizar();
@@ -96,7 +97,8 @@ public class TelaCliente {
 		tableListagem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lblResultados.setText("selecionado="+ (String) tableListagem.getValueAt( tableListagem.getSelectedRow(), 0));
+				lblResultados
+						.setText("selecionado=" + (String) tableListagem.getValueAt(tableListagem.getSelectedRow(), 0));
 			}
 		});
 		tableListagem.setGridColor(Color.BLACK);
@@ -112,7 +114,7 @@ public class TelaCliente {
 		tableListagem.setShowGrid(true);
 		tableListagem.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-		label = new JLabel("");		//label de mensagem
+		label = new JLabel(""); // label de mensagem
 		label.setForeground(Color.BLUE);
 		label.setBounds(17, 247, 688, 14);
 		frameCliente.getContentPane().add(label);
@@ -129,8 +131,7 @@ public class TelaCliente {
 					models.Cliente clienteCadastrado = Fachada.cadastrarCliente();
 					label.setText("Cliente criado: " + clienteCadastrado.getId());
 					listagem();
-				}
-				catch(Exception ex) {
+				} catch (Exception ex) {
 					label.setText(ex.getMessage());
 				}
 			}
@@ -153,18 +154,16 @@ public class TelaCliente {
 		btnApagarCliente.setBackground(new Color(255, 0, 0));
 		btnApagarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try{
-					if (tableListagem.getSelectedRow() >= 0){	
-						label.setText("Não implementado " );
-						int idDoCliente = (int) tableListagem.getValueAt( tableListagem.getSelectedRow(), 0);
+				try {
+					if (tableListagem.getSelectedRow() >= 0) {
+						label.setText("Não implementado ");
+						int idDoCliente = (int) tableListagem.getValueAt(tableListagem.getSelectedRow(), 0);
 						Fachada.removerCliente(idDoCliente);
-						label.setText("cliente apagado" );
+						label.setText("cliente apagado");
 						listagem();
-					}
-					else
+					} else
 						label.setText("Não selecionado");
-				}
-				catch(Exception ex) {
+				} catch (Exception ex) {
 					label.setText(ex.getMessage());
 				}
 			}
@@ -175,33 +174,32 @@ public class TelaCliente {
 	}
 
 	public void listagem() {
-		try{
+		try {
 			List<Cliente> listaDeClientes = Fachada.listarClientes();
 
 			// model armazena todas as linhas e colunas do table
 			DefaultTableModel model = new DefaultTableModel();
 
-			//adicionar colunas no model
+			// adicionar colunas no model
 			model.addColumn("ID");
 			model.addColumn("Lista de pesagens");
 
-			//adicionar linhas no model
-			for(Cliente cliente : listaDeClientes) {
+			// adicionar linhas no model
+			for (Cliente cliente : listaDeClientes) {
 				List<Pesagem> listaDePesagens = cliente.getListaDePesagem();
-				
-				if (listaDePesagens.size() > 0)				
+
+				if (listaDePesagens.size() > 0)
 					for (Pesagem pesagem : listaDePesagens)
-						model.addRow(new Object[]{cliente.getId(), pesagem} );
+						model.addRow(new Object[] { cliente.getId(), pesagem });
 				else
-					model.addRow(new Object[] {cliente.getId(), "Sem pesagens"});
+					model.addRow(new Object[] { cliente.getId(), "Sem pesagens" });
 			}
 
-			//atualizar model no table (visualizacao)
+			// atualizar model no table (visualizacao)
 			tableListagem.setModel(model);
 
-			lblResultados.setText("resultados: "+listaDeClientes.size()+ " objetos");
-		}
-		catch(Exception erro){
+			lblResultados.setText("resultados: " + listaDeClientes.size() + " objetos");
+		} catch (Exception erro) {
 			label.setText(erro.getMessage());
 		}
 	}
