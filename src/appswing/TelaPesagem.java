@@ -16,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -31,30 +30,24 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.db4o.ObjectContainer;
-
-import modelo.Aluguel;
+import models.Pesagem;
 import regras_negocio.Fachada;
 
 public class TelaPesagem {
 	private JDialog framePesagem;
 	private JTable table;
 	private JScrollPane scrollPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField inputPeso;
+	private JTextField inputTipoDeComida;
+	private JTextField inputIdDoClient;
 	private JButton btnListar;
-	private JButton button_1;
+	private JButton btnCriarPesagem;
 	private JButton btnApagarSelecionada;
-	private JLabel label;
-	private JLabel label_1;
-	private JLabel label_2;
-	private JLabel label_3;
-	private JLabel label_4;
-	private JLabel label_5;
-	private JLabel label_6;
+	private JLabel lblMensagens;
+	private JLabel lblInputPeso;
+	private JLabel lblTipoDeComida;
+	private JLabel lblIdDoCliente;
+	private JLabel lblResultados;
 
 	/**
 	 * Launch the application.
@@ -86,8 +79,8 @@ public class TelaPesagem {
 		framePesagem = new JDialog();
 		framePesagem.setModal(true);
 		framePesagem.setResizable(false);
-		framePesagem.setTitle("Aluguel");
-		framePesagem.setBounds(100, 100, 729, 419);
+		framePesagem.setTitle("Pesagem");
+		framePesagem.setBounds(100, 100, 729, 400);
 		framePesagem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		framePesagem.getContentPane().setLayout(null);
 		framePesagem.addWindowListener(new WindowAdapter() {
@@ -110,7 +103,7 @@ public class TelaPesagem {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				label_6.setText("selecionado="+ (int) table.getValueAt( table.getSelectedRow(), 0));
+				lblResultados.setText("selecionado="+ (int) table.getValueAt( table.getSelectedRow(), 0));
 			}
 		});
 		table.setGridColor(Color.BLACK);
@@ -126,53 +119,54 @@ public class TelaPesagem {
 		table.setShowGrid(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-		label = new JLabel("");		//label de mensagem
-		label.setForeground(Color.BLUE);
-		label.setBounds(12, 355, 688, 14);
-		framePesagem.getContentPane().add(label);
+		lblMensagens = new JLabel("");		//label de mensagem
+		lblMensagens.setForeground(Color.BLUE);
+		lblMensagens.setBounds(21, 334, 688, 14);
+		framePesagem.getContentPane().add(lblMensagens);
 
-		label_6 = new JLabel("resultados:");
-		label_6.setBounds(21, 190, 431, 14);
-		framePesagem.getContentPane().add(label_6);
+		lblResultados = new JLabel("resultados:");
+		lblResultados.setBounds(21, 190, 431, 14);
+		framePesagem.getContentPane().add(lblResultados);
 
-		label_1 = new JLabel("Data de In\u00EDcio:");
-		label_1.setHorizontalAlignment(SwingConstants.LEFT);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_1.setBounds(12, 269, 89, 14);
-		framePesagem.getContentPane().add(label_1);
+		lblInputPeso = new JLabel("Peso:");
+		lblInputPeso.setHorizontalAlignment(SwingConstants.LEFT);
+		lblInputPeso.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblInputPeso.setBounds(256, 214, 35, 14);
+		framePesagem.getContentPane().add(lblInputPeso);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Dialog", Font.PLAIN, 12));
-		textField.setColumns(10);
-		textField.setBounds(103, 266, 195, 20);
-		framePesagem.getContentPane().add(textField);
+		inputPeso = new JTextField();
+		inputPeso.setFont(new Font("Dialog", Font.PLAIN, 12));
+		inputPeso.setColumns(10);
+		inputPeso.setBounds(295, 211, 130, 20);
+		framePesagem.getContentPane().add(inputPeso);
 
-		button_1 = new JButton("Criar novo aluguel");
-		button_1.addActionListener(new ActionListener() {
+		btnCriarPesagem = new JButton("Criar pesagem");
+		btnCriarPesagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(textField.getText().isEmpty() || textField_1.getText().isEmpty() || textField_2.getText().isEmpty() || textField_3.getText().isEmpty()) {
-						label.setText("campo vazio");
+					if(inputPeso.getText().isEmpty() || inputTipoDeComida.getText().isEmpty() || inputIdDoClient.getText().isEmpty()) {
+						lblMensagens.setText("Campo vazio");
 						return;
 					}
-					String dataInicio = textField.getText();
-					String dataFim = textField_1.getText();
-					String placa = textField_2.getText();
-					String cpf = textField_3.getText();
-					double diaria = Double.parseDouble(textField_4.getText());
+					double peso = Double.parseDouble(inputPeso.getText());
+					String tipoDeComida = inputTipoDeComida.getText();
+					int idDoCliente = Integer.parseInt(inputIdDoClient.getText());
 
-					Fachada.alugarCarro(cpf, placa, diaria, dataInicio, dataFim);
-					label.setText("aluguel criado");
+					Fachada.cadastrarPesagem(peso, tipoDeComida, idDoCliente);
+					lblMensagens.setText("Pesagem criada");
 					listagem();
 				}
+				catch (NumberFormatException nfe) {
+					lblMensagens.setText(nfe.getMessage());
+				}
 				catch(Exception ex) {
-					label.setText(ex.getMessage());
+					lblMensagens.setText(ex.getMessage());
 				}
 			}
 		});
-		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_1.setBounds(281, 324, 153, 23);
-		framePesagem.getContentPane().add(button_1);
+		btnCriarPesagem.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnCriarPesagem.setBounds(223, 301, 130, 23);
+		framePesagem.getContentPane().add(btnCriarPesagem);
 
 		btnListar = new JButton("Listar");
 		btnListar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -184,109 +178,87 @@ public class TelaPesagem {
 		btnListar.setBounds(308, 11, 89, 23);
 		framePesagem.getContentPane().add(btnListar);
 
-		label_2 = new JLabel("Data fim aluguel");
-		label_2.setHorizontalAlignment(SwingConstants.LEFT);
-		label_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_2.setBounds(310, 269, 101, 14);
-		framePesagem.getContentPane().add(label_2);
+		lblTipoDeComida = new JLabel("Tipo de comida:");
+		lblTipoDeComida.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTipoDeComida.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblTipoDeComida.setBounds(199, 274, 94, 14);
+		framePesagem.getContentPane().add(lblTipoDeComida);
 
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Dialog", Font.PLAIN, 12));
-		textField_1.setColumns(10);
-		textField_1.setBounds(414, 266, 168, 20);
-		framePesagem.getContentPane().add(textField_1);
+		inputTipoDeComida = new JTextField();
+		inputTipoDeComida.setFont(new Font("Dialog", Font.PLAIN, 12));
+		inputTipoDeComida.setColumns(10);
+		inputTipoDeComida.setBounds(295, 271, 130, 20);
+		framePesagem.getContentPane().add(inputTipoDeComida);
 
 		btnApagarSelecionada = new JButton("Apagar selecionada");
 		btnApagarSelecionada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					if (table.getSelectedRow() >= 0) {	
-						int idAluguel = (int) table.getValueAt( table.getSelectedRow(), 0);
+						int idPesagem = (int) table.getValueAt( table.getSelectedRow(), 0);
 
-						Fachada.excluirAluguel(idAluguel);
-						label.setText("aluguel apagado" );
+						Fachada.excluirPesagem(idPesagem);
+						lblMensagens.setText("aluguel apagado" );
 						listagem();
-
 					}
 					else
-						label.setText("nao selecionado");
+						lblMensagens.setText("nao selecionado");
 				}
 				catch(Exception ex) {
-					label.setText(ex.getMessage());
+					lblMensagens.setText(ex.getMessage());
 				}
 			}
 		});
 		btnApagarSelecionada.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnApagarSelecionada.setBounds(263, 214, 171, 23);
+		btnApagarSelecionada.setBounds(363, 301, 142, 23);
 		framePesagem.getContentPane().add(btnApagarSelecionada);
 
 
-		textField_2 = new JTextField();
-		textField_2.setBounds(113, 297, 130, 19);
-		framePesagem.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		inputIdDoClient = new JTextField();
+		inputIdDoClient.setBounds(295, 241, 130, 20);
+		framePesagem.getContentPane().add(inputIdDoClient);
+		inputIdDoClient.setColumns(10);
 
 		JTextPane textPane = new JTextPane();
 		textPane.setBounds(47, 308, 1, 16);
 		framePesagem.getContentPane().add(textPane);
 
-		label_3 = new JLabel("Placa do carro");
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_3.setBounds(12, 295, 89, 16);
-		framePesagem.getContentPane().add(label_3);
-
-		label_4 = new JLabel("CPF do cliente");
-		label_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_4.setBounds(253, 297, 116, 16);
-		framePesagem.getContentPane().add(label_4);
-
-		textField_3 = new JTextField();
-		textField_3.setBounds(345, 294, 130, 20);
-		framePesagem.getContentPane().add(textField_3);
-		textField_3.setColumns(10);
-
-		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Dialog", Font.PLAIN, 12));
-		textField_4.setColumns(10);
-		textField_4.setBounds(555, 298, 168, 20);
-		framePesagem.getContentPane().add(textField_4);
-
-		label_5 = new JLabel("diaria");
-		label_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_5.setBounds(498, 298, 52, 16);
-		framePesagem.getContentPane().add(label_5);
+		lblIdDoCliente = new JLabel("ID do cliente:");
+		lblIdDoCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblIdDoCliente.setBounds(212, 241, 81, 16);
+		framePesagem.getContentPane().add(lblIdDoCliente);
 	}
 
 	public void listagem() {
 		try{
-			//ler os carros do banco
-			List<Aluguel> lista = Fachada.listarAlugueis();
+			//ler as pesagens do banco
+			List<Pesagem> listaDePesagens = Fachada.listarPesagens();
 
 			// o model armazena todas as linhas e colunas do table
 			DefaultTableModel model = new DefaultTableModel();
 
 			//adicionar colunas no model
-			model.addColumn("id");
-			model.addColumn("nome");
-			model.addColumn("placa");
-			model.addColumn("data inicial");
-			model.addColumn("data final");
-			model.addColumn("total a pagar");
-			model.addColumn("finalizado");
+			model.addColumn("ID da pesagem");
+			model.addColumn("Tipo de comida");
+			model.addColumn("Peso (KG)");
+			model.addColumn("ID do cliente");
 
 			//adicionar linhas no model
-			for(Aluguel aluguel : lista) {
-				model.addRow(new Object[]{aluguel.getId(), aluguel.getCliente().getNome(), aluguel.getCarro().getPlaca(), aluguel.getDatainicio(), aluguel.getDatafim(), aluguel.getValor(), aluguel.isFinalizado()});
-			}
-
+			for(Pesagem pesagem : listaDePesagens)
+				model.addRow(new Object[]{
+						pesagem.getId(),
+						pesagem.getTipoDaComida(),
+						pesagem.getPeso(),
+						pesagem.getCliente().getId()
+				});
 
 			//atualizar model no table (visualizacao)
 			table.setModel(model);
 
-			label_6.setText("resultados: "+lista.size()+ " objetos");
+			lblResultados.setText("resultados: "+listaDePesagens.size()+ " objetos");
 		}
 		catch(Exception erro){
-			label.setText(erro.getMessage());
+			lblMensagens.setText(erro.getMessage());
 		}
 	}
 

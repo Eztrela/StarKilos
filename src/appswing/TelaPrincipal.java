@@ -21,9 +21,9 @@ import regras_negocio.Fachada;
 
 public class TelaPrincipal {
 	private JFrame frmStarkilos;
-	private JMenu mnPesagem;
-	private JMenu mnCliente;
 	private JMenu mnTipoComida;
+	private JMenu mnCliente;
+	private JMenu mnPesagem;
 	private JMenu mnConsulta;
 	private JLabel lblInicializando;
 
@@ -70,22 +70,22 @@ public class TelaPrincipal {
 		lblInicializando.setText("Inicializando...");
 		lblInicializando.setBounds(0, 0, 467, 302);
 		//label.setBounds(0, 0, frame.getWidth(), frame.getHeight());
-		ImageIcon imagem = new ImageIcon(getClass().getResource("/arquivos/imagem.png"));
-		imagem = new ImageIcon(imagem.getImage().getScaledInstance(lblInicializando.getWidth(),lblInicializando.getHeight(), Image.SCALE_DEFAULT));//		label.setIcon(fotos);
-		lblInicializando.setIcon(imagem);
+//		ImageIcon imagem = new ImageIcon(getClass().getResource("/arquivos/imagem.png"));
+//		imagem = new ImageIcon(imagem.getImage().getScaledInstance(lblInicializando.getWidth(),lblInicializando.getHeight(), Image.SCALE_DEFAULT));//		label.setIcon(fotos);
+//		lblInicializando.setIcon(imagem);
 		frmStarkilos.getContentPane().add(lblInicializando);
 		frmStarkilos.setResizable(false);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmStarkilos.setJMenuBar(menuBar);
-		mnPesagem = new JMenu("Pesagem");
-		mnPesagem.addMouseListener(new MouseAdapter() {
+		mnTipoComida = new JMenu("Tipo de comida");
+		mnTipoComida.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				TelaTipoComida tela = new TelaTipoComida();
 			}
 		});
-		menuBar.add(mnPesagem);
+		menuBar.add(mnTipoComida);
 
 		mnCliente = new JMenu("Cliente");
 		mnCliente.addMouseListener(new MouseAdapter() {
@@ -96,14 +96,14 @@ public class TelaPrincipal {
 		});
 		menuBar.add(mnCliente);
 		
-		mnTipoComida = new JMenu("Tipo de comida");
-		mnTipoComida.addMouseListener(new MouseAdapter() {
+		mnPesagem = new JMenu("Pesagem");
+		mnPesagem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				TelaPesagem tela = new TelaPesagem();
 			}
 		});
-		menuBar.add(mnTipoComida);
+		menuBar.add(mnPesagem);
 		
 		mnConsulta = new JMenu("Consultas");
 		mnConsulta.addMouseListener(new MouseAdapter() {

@@ -38,7 +38,7 @@ public class Fachada {
 		DAO.close();
 	}
 
-	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, String idCliente) throws Exception {
+	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, int idCliente) throws Exception {
 		DAO.begin();
 		TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
 		
@@ -198,5 +198,32 @@ public class Fachada {
 		}
 		daoTipoComida.delete(comida);
 		DAO.commit();
+	}
+	
+	public static List<Usuario>  listarUsuarios(){
+		DAO.begin();
+		List<Usuario> resultados =  daoUsuario.readAll();
+		DAO.commit();
+		return resultados;
+	}
+	
+	public static Usuario cadastrarUsuario(String nome, String senha) throws Exception{
+		DAO.begin();
+		Usuario usuario = daoUsuario.read(nome);
+		if (usuario != null)
+			throw new Exception("Usuario já cadastrado:" + nome);
+		usuario = new Usuario(nome, senha);
+
+		daoUsuario.create(usuario);
+		DAO.commit();
+		return usuario;
+	}
+	public static Usuario localizarUsuario(String nome, String senha) {
+		Usuario usuario = daoUsuario.read(nome);
+		if (usuario == null)
+			return null;
+		if (!usuario.getSenha().equals(senha))
+			return null;
+		return usuario;
 	}
 }

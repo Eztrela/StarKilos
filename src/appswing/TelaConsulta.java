@@ -32,20 +32,20 @@ import javax.swing.table.DefaultTableModel;
 
 import com.db4o.ObjectContainer;
 
-import modelo.Aluguel;
-import modelo.Carro;
+import models.Pesagem;
+import models.Cliente;
 import regras_negocio.Fachada;
 
 public class TelaConsulta {
 	private JDialog frame;
-	private JTable table;
+	private JTable tableDeResultados;
 	private JScrollPane scrollPane;
-	private JButton button;
-	private JLabel label;
-	private JLabel label_4;
+	private JButton btnConsultas;
+	private JLabel lblMensagens;
+	private JLabel lblResultados;
 
 	private ObjectContainer manager;
-	private JComboBox comboBox;
+	private JComboBox comboboxConsultas;
 
 	/**
 	 * Launch the application.
@@ -79,7 +79,7 @@ public class TelaConsulta {
 
 		frame.setResizable(false);
 		frame.setTitle("Consulta");
-		frame.setBounds(100, 100, 729, 385);
+		frame.setBounds(100, 100, 729, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.addWindowListener(new WindowAdapter() {
@@ -97,46 +97,46 @@ public class TelaConsulta {
 		scrollPane.setBounds(21, 43, 674, 148);
 		frame.getContentPane().add(scrollPane);
 
-		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		tableDeResultados = new JTable();
+		tableDeResultados.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				label_4.setText("selecionado="+ (String) table.getValueAt( table.getSelectedRow(), 0));
+				lblResultados.setText("selecionado="+ (String) tableDeResultados.getValueAt( tableDeResultados.getSelectedRow(), 0));
 			}
 		});
-		table.setGridColor(Color.BLACK);
-		table.setRequestFocusEnabled(false);
-		table.setFocusable(false);
-		table.setBackground(Color.LIGHT_GRAY);
-		table.setFillsViewportHeight(true);
-		table.setRowSelectionAllowed(true);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		scrollPane.setViewportView(table);
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setShowGrid(true);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tableDeResultados.setGridColor(Color.BLACK);
+		tableDeResultados.setRequestFocusEnabled(false);
+		tableDeResultados.setFocusable(false);
+		tableDeResultados.setBackground(Color.LIGHT_GRAY);
+		tableDeResultados.setFillsViewportHeight(true);
+		tableDeResultados.setRowSelectionAllowed(true);
+		tableDeResultados.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		scrollPane.setViewportView(tableDeResultados);
+		tableDeResultados.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableDeResultados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableDeResultados.setShowGrid(true);
+		tableDeResultados.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-		label = new JLabel("");		//label de mensagem
-		label.setForeground(Color.BLUE);
-		label.setBounds(21, 321, 688, 14);
-		frame.getContentPane().add(label);
+		lblMensagens = new JLabel("");		//label de mensagem
+		lblMensagens.setForeground(Color.BLUE);
+		lblMensagens.setBounds(31, 214, 688, 14);
+		frame.getContentPane().add(lblMensagens);
 
-		label_4 = new JLabel("resultados:");
-		label_4.setBounds(21, 190, 431, 14);
-		frame.getContentPane().add(label_4);
+		lblResultados = new JLabel("resultados:");
+		lblResultados.setBounds(21, 190, 431, 14);
+		frame.getContentPane().add(lblResultados);
 
-		button = new JButton("Consultar");
-		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button.addActionListener(new ActionListener() {
+		btnConsultas = new JButton("Consultar");
+		btnConsultas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int index = comboBox.getSelectedIndex();
+				int index = comboboxConsultas.getSelectedIndex();
 				if(index<0)
-					label_4.setText("consulta nao selecionada");
+					lblResultados.setText("consulta nao selecionada");
 				else
 					switch(index) {
 					case 0: 
-						List<Aluguel> resultado1 = Fachada.alugueisFinalizados();
+						List<Pesagem> resultado1 = Fachada.alugueisFinalizados();
 						listagemAluguel(resultado1);
 						break;
 					case 1: 
@@ -155,14 +155,17 @@ public class TelaConsulta {
 
 			}
 		});
-		button.setBounds(606, 10, 89, 23);
-		frame.getContentPane().add(button);
+		btnConsultas.setBounds(606, 10, 89, 23);
+		frame.getContentPane().add(btnConsultas);
 
-		comboBox = new JComboBox();
-		comboBox.setToolTipText("selecione a consulta");
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"alugueis finalizados", "alugueis de um determinado modelo de carro", "carros que possuem N alugueis"}));
-		comboBox.setBounds(21, 10, 513, 22);
-		frame.getContentPane().add(comboBox);
+		comboboxConsultas = new JComboBox();
+		comboboxConsultas.setToolTipText("selecione a consulta");
+		comboboxConsultas.setModel(new DefaultComboBoxModel(new String[] {
+				"Pesagens por cliente",
+				"Pesagens por data",
+				"Clientes com N pesagens"}));
+		comboboxConsultas.setBounds(21, 10, 513, 22);
+		frame.getContentPane().add(comboboxConsultas);
 	}
 
 	public void listagemAluguel(List<Aluguel> lista) {
@@ -184,12 +187,12 @@ public class TelaConsulta {
 				model.addRow(new Object[]{aluguel.getId(), aluguel.getCliente().getNome(), aluguel.getCarro().getPlaca(), aluguel.getDatainicio(), aluguel.getDatafim(), aluguel.getValor(), aluguel.isFinalizado()});
 			}
 			//atualizar model no table (visualizacao)
-			table.setModel(model);
+			tableDeResultados.setModel(model);
 
-			label_4.setText("resultados: "+lista.size()+ " objetos");
+			lblResultados.setText("resultados: "+lista.size()+ " objetos");
 		}
 		catch(Exception erro){
-			label.setText(erro.getMessage());
+			lblMensagens.setText(erro.getMessage());
 		}
 	}
 	
@@ -208,12 +211,12 @@ public class TelaConsulta {
 				model.addRow(new Object[]{car.getPlaca(), car.getModelo(), car.isAlugado()} );
 			}
 			//atualizar model no table (visualizacao)
-			table.setModel(model);
+			tableDeResultados.setModel(model);
 
-			label_4.setText("resultados: "+lista.size()+ " objetos");
+			lblResultados.setText("resultados: "+lista.size()+ " objetos");
 		}
 		catch(Exception erro){
-			label.setText(erro.getMessage());
+			lblMensagens.setText(erro.getMessage());
 		}
 	}
 

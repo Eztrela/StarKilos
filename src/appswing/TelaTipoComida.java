@@ -47,9 +47,7 @@ public class TelaTipoComida {
 	private JLabel label;
 	private JLabel lblNomeTipoComida;
 	private JLabel lblPreo;
-	private JLabel label_4;
-
-	private JButton button_3;
+	private JLabel lblResultados;
 
 	/**
 	 * Launch the application.
@@ -106,7 +104,7 @@ public class TelaTipoComida {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				label_4.setText("selecionado="+ (String) table.getValueAt( table.getSelectedRow(), 0));
+				lblResultados.setText("selecionado="+ (String) table.getValueAt( table.getSelectedRow(), 0));
 			}
 		});
 		table.setGridColor(Color.BLACK);
@@ -127,9 +125,9 @@ public class TelaTipoComida {
 		label.setBounds(21, 321, 688, 14);
 		frame.getContentPane().add(label);
 
-		label_4 = new JLabel("resultados:");
-		label_4.setBounds(21, 190, 431, 14);
-		frame.getContentPane().add(label_4);
+		lblResultados = new JLabel("resultados:");
+		lblResultados.setBounds(21, 190, 431, 14);
+		frame.getContentPane().add(lblResultados);
 
 		lblNomeTipoComida = new JLabel("Nome:");
 		lblNomeTipoComida.setHorizontalAlignment(SwingConstants.LEFT);
@@ -147,7 +145,6 @@ public class TelaTipoComida {
 		btnCriarTipoComida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					// TODO - fazer o tratamento do campo 'preco'
 					if(inputNomeTipoComida.getText().isBlank() || inputPrecoTipoComida.getText().isBlank()) {
 						label.setText("Campo vazio");
 						return;
@@ -157,6 +154,9 @@ public class TelaTipoComida {
 					Fachada.cadastrarTipoComida(nome, preco);
 					label.setText("Tipo de comida criado: "+ nome);
 					listagem();
+				}
+				catch (NumberFormatException nfe) {
+					label.setText(nfe.getMessage());
 				}
 				catch(Exception ex) {
 					label.setText(ex.getMessage());
@@ -194,15 +194,15 @@ public class TelaTipoComida {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					if (table.getSelectedRow() >= 0){	
-						label.setText("nao implementado ");
+						label.setText("Nao implementado ");
 						String nome = (String) table.getValueAt( table.getSelectedRow(), 0);
 
-						Fachada.excluirTipoComida(nome);
+						Fachada.removerTipoComida(nome);
 						label.setText("Tipo de comida apagado" );
 						listagem();
 					}
 					else
-						label.setText("nao selecionado");
+						label.setText("Nao selecionado");
 				}
 				catch(Exception ex) {
 					label.setText(ex.getMessage());
@@ -212,59 +212,28 @@ public class TelaTipoComida {
 		btnApagar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnApagar.setBounds(50, 237, 142, 23);
 		frame.getContentPane().add(btnApagar);
-
-		button_3 = new JButton("exibir alugueis");
-		button_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try{
-					if (table.getSelectedRow() >= 0){	
-						String placa = (String) table.getValueAt( table.getSelectedRow(), 0);
-						Carro car = Fachada.localizarCarro(placa);
-
-						if(car != null) {
-							String texto="";
-							if(car.getAlugueis().isEmpty())
-								texto = "nao possui alugueis";
-							else
-								for (Aluguel a : car.getAlugueis()) {
-									texto = texto + a.getDatainicio()+ "-" + a.getDatafim() + "-" +a.getCliente().getNome()+ "\n";
-								}
-
-							JOptionPane.showMessageDialog(frame, texto, "alugueis", 1);
-						}
-					}
-				}
-				catch(Exception erro) {
-					label.setText(erro.getMessage());
-				}
-			}
-		});
-		button_3.setBounds(516, 237, 134, 23);
-		frame.getContentPane().add(button_3);
 	}
 
 	public void listagem() {
 		try{
-			List<Carro> lista = Fachada.listarCarros();
+			List<TipoComida> listaDeComidas = Fachada.listarTiposComida();
 
 			// model armazena todas as linhas e colunas do table
 			DefaultTableModel model = new DefaultTableModel();
 
 			//adicionar colunas no model
-			model.addColumn("placa");
-			model.addColumn("modelo");
-			model.addColumn("alugado");
+			model.addColumn("Nome");
+			model.addColumn("Preço");
 
 			//adicionar linhas no model
-			for(Carro car : lista) {
-				model.addRow(new Object[]{car.getPlaca(), car.getModelo(), car.isAlugado()} );
+			for (TipoComida comida : listaDeComidas) {
+				model.addRow(new Object[]{comida.getNome(), comida.getPreco()});
 			}
 
 			//atualizar model no table (visualizacao)
 			table.setModel(model);
 
-			label_4.setText("resultados: "+lista.size()+ " objetos");
+			lblResultados.setText("resultados: "+listaDeComidas.size()+ " objetos");
 		}
 		catch(Exception erro){
 			label.setText(erro.getMessage());

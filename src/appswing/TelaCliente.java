@@ -21,18 +21,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.db4o.ObjectContainer;
-
 import models.Cliente;
+import models.Pesagem;
 import regras_negocio.Fachada;
 
 public class TelaCliente {
@@ -43,9 +39,7 @@ public class TelaCliente {
 	private JButton btnCriarCliente;
 	private JButton btnApagarCliente;
 	private JLabel label;
-	private JLabel label_4;
-
-	private JButton button_3;
+	private JLabel lblResultados;
 
 	/**
 	 * Launch the application.
@@ -79,7 +73,7 @@ public class TelaCliente {
 		
 		frameCliente.setResizable(false);
 		frameCliente.setTitle("Cliente");
-		frameCliente.setBounds(100, 100, 729, 340);
+		frameCliente.setBounds(100, 100, 729, 310);
 		frameCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frameCliente.getContentPane().setLayout(null);
 		frameCliente.addWindowListener(new WindowAdapter() {
@@ -102,7 +96,7 @@ public class TelaCliente {
 		tableListagem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				label_4.setText("selecionado="+ (String) tableListagem.getValueAt( tableListagem.getSelectedRow(), 0));
+				lblResultados.setText("selecionado="+ (String) tableListagem.getValueAt( tableListagem.getSelectedRow(), 0));
 			}
 		});
 		tableListagem.setGridColor(Color.BLACK);
@@ -120,12 +114,12 @@ public class TelaCliente {
 
 		label = new JLabel("");		//label de mensagem
 		label.setForeground(Color.BLUE);
-		label.setBounds(21, 254, 688, 14);
+		label.setBounds(17, 247, 688, 14);
 		frameCliente.getContentPane().add(label);
 
-		label_4 = new JLabel("resultados:");
-		label_4.setBounds(21, 190, 431, 14);
-		frameCliente.getContentPane().add(label_4);
+		lblResultados = new JLabel("resultados:");
+		lblResultados.setBounds(21, 190, 431, 14);
+		frameCliente.getContentPane().add(lblResultados);
 
 		btnCriarCliente = new JButton("Criar novo cliente");
 		btnCriarCliente.setBackground(new Color(54, 219, 36));
@@ -142,7 +136,7 @@ public class TelaCliente {
 			}
 		});
 		btnCriarCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCriarCliente.setBounds(286, 214, 134, 23);
+		btnCriarCliente.setBounds(216, 214, 134, 23);
 		frameCliente.getContentPane().add(btnCriarCliente);
 
 		btnListar = new JButton("Listar");
@@ -161,14 +155,14 @@ public class TelaCliente {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					if (tableListagem.getSelectedRow() >= 0){	
-						label.setText("nao implementado " );
-						String idDoCliente = (String) tableListagem.getValueAt( tableListagem.getSelectedRow(), 0);
-						Fachada.excluirCliente(idDoCliente);
+						label.setText("Não implementado " );
+						int idDoCliente = (int) tableListagem.getValueAt( tableListagem.getSelectedRow(), 0);
+						Fachada.removerCliente(idDoCliente);
 						label.setText("cliente apagado" );
 						listagem();
 					}
 					else
-						label.setText("nao selecionado");
+						label.setText("Não selecionado");
 				}
 				catch(Exception ex) {
 					label.setText(ex.getMessage());
@@ -176,59 +170,36 @@ public class TelaCliente {
 			}
 		});
 		btnApagarCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnApagarCliente.setBounds(430, 214, 134, 23);
+		btnApagarCliente.setBounds(360, 214, 134, 23);
 		frameCliente.getContentPane().add(btnApagarCliente);
-
-		button_3 = new JButton("exibir alugueis");
-		button_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try{
-					if (tableListagem.getSelectedRow() >= 0){	
-						String cpf = (String) tableListagem.getValueAt( tableListagem.getSelectedRow(), 0);
-						Cliente cliente = Fachada.localizarCliente(cpf);
-
-						if(cliente !=  null) {
-							String texto="";
-							if(cliente.getAlugueis().isEmpty())
-								texto = "nao possui alugueis";
-							else
-								for (Aluguel a : cliente.getAlugueis()) 
-									texto = texto + a.getDatainicio()+ "-" + a.getDatafim() + "-" +a.getCarro().getPlaca()+ "\n";
-
-							JOptionPane.showMessageDialog(frameCliente, texto, "alugueis", 1);
-						}
-					}
-				}
-				catch(Exception erro) {
-					label.setText(erro.getMessage());
-				}
-			}
-		});
-		button_3.setBounds(142, 214, 134, 23);
-		frameCliente.getContentPane().add(button_3);
 	}
 
 	public void listagem() {
 		try{
-			List<Cliente> lista = Fachada.listarClientes();
+			List<Cliente> listaDeClientes = Fachada.listarClientes();
 
 			// model armazena todas as linhas e colunas do table
 			DefaultTableModel model = new DefaultTableModel();
 
 			//adicionar colunas no model
-			model.addColumn("cpf");
-			model.addColumn("nome");
+			model.addColumn("ID");
+			model.addColumn("Lista de pesagens");
 
 			//adicionar linhas no model
-			for(Cliente cli : lista) {
-				model.addRow(new Object[]{cli.getCpf(), cli.getNome()} );
+			for(Cliente cliente : listaDeClientes) {
+				List<Pesagem> listaDePesagens = cliente.getListaDePesagem();
+				
+				if (listaDePesagens.size() > 0)				
+					for (Pesagem pesagem : listaDePesagens)
+						model.addRow(new Object[]{cliente.getId(), pesagem} );
+				else
+					model.addRow(new Object[] {cliente.getId(), "Sem pesagens"});
 			}
 
 			//atualizar model no table (visualizacao)
 			tableListagem.setModel(model);
 
-			label_4.setText("resultados: "+lista.size()+ " objetos");
+			lblResultados.setText("resultados: "+listaDeClientes.size()+ " objetos");
 		}
 		catch(Exception erro){
 			label.setText(erro.getMessage());
