@@ -147,6 +147,7 @@ public class Fachada {
 				daoPesagem.delete(pesagem);
 			}
 			cliente.getListaDePesagem().clear();
+
 		}
 		daoCliente.delete(cliente);
 		DAO.commit();
