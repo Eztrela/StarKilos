@@ -172,7 +172,7 @@ public class TelaConsulta {
 		comboboxConsultas.setModel(new DefaultComboBoxModel(new String[] {
 				"Pesagens por data",
 				"Pesagens por cliente",
-				"Clientes com N pesagens" }));
+				"Clientes com mais de N pesagens" }));
 		comboboxConsultas.setBounds(21, 10, 513, 22);
 		frame.getContentPane().add(comboboxConsultas);
 	}

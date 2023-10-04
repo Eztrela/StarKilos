@@ -7,6 +7,7 @@ import com.db4o.query.Query;
 
 import models.Cliente;
 import models.Pesagem;
+import regras_negocio.Fachada;
 
 public class Remover {
 	protected ObjectContainer manager;
@@ -17,36 +18,47 @@ public class Remover {
 	 */
 	
 	public Remover() {
-		manager = Util.conectarBanco();
+		Fachada.inicializar();
 		System.out.println("Excluindo...");
 		
 		// Localizar o cliente de id 2
-		Query q = manager.query();
-		q.constrain(Cliente.class);
-		q.descend("id").constrain(2);
+		Cliente cliente = Fachada.localizarCliente(1);
 		
-		List<Cliente> resultado = q.execute();
-		
-		if (resultado.size() > 0) {
-			Cliente clienteRetornado = resultado.get(0);
-			List<Pesagem> listaDePesagens = clienteRetornado.getListaDePesagem();
-			int tamanhoDaLista = listaDePesagens.size(); 
+		try {
+			if (cliente != null) {
+//				List<Pesagem> listaDePesagens = cliente.getListaDePesagem();
+//				int tamanhoDaLista = listaDePesagens.size(); 
+				
+				// Remover as duas últimas pesagens do cliente
+//				Pesagem ultimaPesagem = cliente.getListaDePesagem().get(tamanhoDaLista-1);
+//				Pesagem penultimaPesagem =cliente.getListaDePesagem().get(tamanhoDaLista-2);
+				Fachada.excluirPesagem(cliente.getListaDePesagem()
+						.get(cliente.getListaDePesagem().size()-1).getId());
+				Fachada.excluirPesagem(cliente.getListaDePesagem()
+						.get(cliente.getListaDePesagem().size()-1).getId());
+				
+				
+//				cliente.removerPesagem(ultimaPesagem);
+//				cliente.removerPesagem(penultimaPesagem);
+//				manager.store(cliente);
+//				
+//				manager.delete(ultimaPesagem);
+//				manager.delete(penultimaPesagem);
+//				manager.commit();
+			}
 			
-			// Remover as duas últimas pesagens do cliente
-			Pesagem ultimaPesagem = clienteRetornado.getListaDePesagem().get(tamanhoDaLista-1);
-			Pesagem penultimaPesagem =clienteRetornado.getListaDePesagem().get(tamanhoDaLista-2);
+			// Remover o cliente de id 1
+			// TODO - fazer
 			
-			clienteRetornado.removerPesagem(ultimaPesagem);
-			clienteRetornado.removerPesagem(penultimaPesagem);
-			manager.store(clienteRetornado);
-			
-			manager.delete(ultimaPesagem);
-			manager.delete(penultimaPesagem);
-			manager.commit();
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
 		}
 		
-		// Remover o cliente de id 1
-		// TODO - fazer
+		Fachada.finalizar();
 		
+	}
+	
+	public static void main(String[] args) {
+		new Remover();
 	}
 }
