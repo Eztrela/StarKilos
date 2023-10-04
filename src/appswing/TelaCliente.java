@@ -98,7 +98,7 @@ public class TelaCliente {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				lblResultados
-						.setText("selecionado=" + (String) tableListagem.getValueAt(tableListagem.getSelectedRow(), 0));
+						.setText("selecionado=" + (int) tableListagem.getValueAt(tableListagem.getSelectedRow(), 0));
 			}
 		});
 		tableListagem.setGridColor(Color.BLACK);
