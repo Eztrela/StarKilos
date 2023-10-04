@@ -1,42 +1,34 @@
 package appconsole;
 
-import java.util.List;
-
 import com.db4o.ObjectContainer;
-import com.db4o.query.Query;
 
 import models.Cliente;
 import models.Pesagem;
 import models.TipoComida;
+import models.Usuario;
+import regras_negocio.Fachada;
 
 public class Listar {
 	protected ObjectContainer manager;
 
 	public Listar() {
 		try {
-			manager = Util.conectarBanco();
-			
-			System.out.println("\n##### Listagem de clientes #####");
-			Query q = manager.query();
-			q.constrain(Cliente.class);
-			List<Cliente> clientesRetornados = q.execute();
-			for (Cliente c: clientesRetornados)
+			Fachada.inicializar();
+			System.out.println("\n---listagem de clientes:");
+			for(Cliente c: Fachada.listarClientes())
 				System.out.println(c);
 
-			System.out.println("\n##### Listagem de tipos de comida #####");
-			q = manager.query();
-			q.constrain(TipoComida.class);  				
-			List<TipoComida> tiposComidaRetornados = q.execute();
-			for (TipoComida tipo: tiposComidaRetornados)
-				System.out.println(tipo);
-			
-			System.out.println("\n##### Listagem de pesagens #####");
-			q = manager.query();
-			q.constrain(Pesagem.class);  				
-			List<Pesagem> pesagensRetornadas = q.execute();
-			for (Pesagem p: pesagensRetornadas)
+			System.out.println("\n---listagem de pesagens:");
+			for(Pesagem p: Fachada.listarPesagens())
 				System.out.println(p);
+			
+			System.out.println("\n---listagem de tipos de comida:");
+			for(TipoComida tipo: Fachada.listarTiposComida())
+				System.out.println(tipo);
 
+			System.out.println("\n---listagem de usuarios:");
+			for(Usuario u: Fachada.listarUsuarios())
+				System.out.println(u);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
