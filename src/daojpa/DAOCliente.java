@@ -1,3 +1,9 @@
+/**********************************
+ * IFPB - SI
+ * POB - Persistencia de Objetos
+ * Prof. Fausto Ayres
+ **********************************/
+
 package daojpa;
 
 import java.util.List;
