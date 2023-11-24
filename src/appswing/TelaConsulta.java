@@ -44,7 +44,7 @@ public class TelaConsulta {
 	private JLabel lblMensagens;
 	private JLabel lblResultados;
 
-	private ObjectContainer manager;
+//	private ObjectContainer manager;
 	private JComboBox comboboxConsultas;
 
 	/**

@@ -2,8 +2,8 @@ package appconsole;
 
 import java.util.List;
 
-import com.db4o.ObjectContainer;
-import com.db4o.query.Query;
+//import com.db4o.ObjectContainer;
+//import com.db4o.query.Query;
 
 import models.Cliente;
 import models.Pesagem;
@@ -11,7 +11,7 @@ import models.TipoComida;
 import regras_negocio.Fachada;
 
 public class Alterar {
-	protected ObjectContainer manager;
+//	protected ObjectContainer manager;
 
 	public Alterar() {
 		try {

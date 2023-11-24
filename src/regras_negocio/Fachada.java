@@ -4,11 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import daodb4o.DAO;
-import daodb4o.DAOCliente;
-import daodb4o.DAOPesagem;
-import daodb4o.DAOTipoComida;
-import daodb4o.DAOUsuario;
+//import daodb4o.DAO;
+//import daodb4o.DAOCliente;
+//import daodb4o.DAOPesagem;
+//import daodb4o.DAOTipoComida;
+//import daodb4o.DAOUsuario;
+import daojpa.DAO;
+import daojpa.DAOCliente;
+import daojpa.DAOPesagem;
+import daojpa.DAOTipoComida;
+import daojpa.DAOUsuario;
+
 import models.Cliente;
 import models.Pesagem;
 import models.TipoComida;
@@ -81,7 +87,7 @@ public class Fachada {
 		Cliente cliente = pesagem.getCliente();
 		cliente.removerPesagem(pesagem);
 
-		daoCliente.update(cliente);
+//		daoCliente.update(cliente);
 		daoPesagem.delete(pesagem);
 		DAO.commit();
 
@@ -164,7 +170,7 @@ public class Fachada {
 			throw new Exception("O Tipo de Comida de nome " + nomeAtual + " nao foi localizado");
 		}
 		comida.setNome(novoNome);
-		daoTipoComida.update(comida);
+//		daoTipoComida.update(comida);
 		DAO.commit();
 	}
 
@@ -175,7 +181,7 @@ public class Fachada {
 			throw new Exception("O Tipo de Comida de nome " + nome + " nao foi localizado");
 		}
 		comida.setPreco(novoPreco);
-		daoTipoComida.update(comida);
+//		daoTipoComida.update(comida);
 		DAO.commit();
 	}
 

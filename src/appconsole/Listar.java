@@ -1,6 +1,6 @@
 package appconsole;
 
-import com.db4o.ObjectContainer;
+//import com.db4o.ObjectContainer;
 
 import models.Cliente;
 import models.Pesagem;
@@ -9,7 +9,7 @@ import models.Usuario;
 import regras_negocio.Fachada;
 
 public class Listar {
-	protected ObjectContainer manager;
+//	protected ObjectContainer manager;
 
 	public Listar() {
 		try {
@@ -33,7 +33,7 @@ public class Listar {
 			System.out.println(e.getMessage());
 		}
 
-		Util.desconectar();
+//		Util.desconectar();
 		System.out.println("\nFim do programa!");
 	}
 
