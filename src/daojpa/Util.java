@@ -47,7 +47,7 @@ public class Util {
 					configuracoes.setProperty("jakarta.persistence.jdbc.url",
 							"jdbc:postgresql://" + ip + ":5432/" + banco);
 					configuracoes.setProperty("jakarta.persistence.jdbc.user", "postgres");
-					configuracoes.setProperty("jakarta.persistence.jdbc.password", "ifpb");
+					configuracoes.setProperty("jakarta.persistence.jdbc.password", "DH-fbn9^}cRER8:GuuX}d.]i!GN?C=fI.q8DTXNp=&O>Y9=k2+wgln6fpCIrmEFz");
 					//configuracoes.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 				}
 				if (sgbd.equals("mysql")) {

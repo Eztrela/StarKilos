@@ -12,7 +12,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+<<<<<<< Updated upstream
 import jakarta.persistence.ManyToOne;
+=======
+>>>>>>> Stashed changes
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -20,12 +23,17 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+<<<<<<< Updated upstream
 	
 	@OneToMany(mappedBy = "cliente", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
 	private List<Pesagem> listaDePesagem;
+=======
+	@OneToMany(mappedBy = "cliente",cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	private List<Pesagem> listaDePesagem = new ArrayList<>();
+>>>>>>> Stashed changes
 	
 	public Cliente() {
-		this.listaDePesagem = new ArrayList<>();
+		
 	}
 
 	@Override
