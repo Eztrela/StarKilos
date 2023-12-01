@@ -64,7 +64,7 @@ public class Pesagem {
 	public String toString() {
 		return "[id=" + id +
 				", peso=" + peso +
-				", TipoComida=" + tipoDaComida +
+				", TipoComida=" + tipoDaComida.getNome() +
 				", cliente=" + cliente.getId() +
 				", data=" + data + "]";
 	}

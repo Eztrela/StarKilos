@@ -39,30 +39,36 @@ public class Fachada {
 	}
 
 	public static Pesagem cadastrarPesagem(double peso, String nomeTipoComida, int idCliente) throws Exception {
-		DAO.begin();
-		TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
+		try {
+			DAO.begin();
+			TipoComida tipoComida = daoTipoComida.read(nomeTipoComida);
 
-		if (tipoComida == null)
-			throw new Exception("Não existe tipo de comida cujo nome é '" + nomeTipoComida + "'");
+			if (tipoComida == null)
+				throw new Exception("Não existe tipo de comida cujo nome é '" + nomeTipoComida + "'");
 
-		Cliente cliente = daoCliente.read(idCliente);
-		if (cliente == null)
-			throw new Exception("Não existe cliente cujo ID é " + idCliente + ".");
+			Cliente cliente = daoCliente.read(idCliente);
+			if (cliente == null)
+				throw new Exception("Não existe cliente cujo ID é " + idCliente + ".");
 
-		if (peso <= 0.0)
-			throw new Exception("Uma pesagem não pode ter peso menor ou igual a 0.");
+			if (peso <= 0.0)
+				throw new Exception("Uma pesagem não pode ter peso menor ou igual a 0.");
+			
+			String pattern = "dd/MM/yyyy";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			String data = simpleDateFormat.format(new Date());
+			Pesagem pesagem = new Pesagem(peso, tipoComida, cliente, data);
+			
+			cliente.adicionarPesagem(pesagem);
+//			daoCliente.update(cliente);
+			daoPesagem.create(pesagem);
+			DAO.commit();
+			return pesagem;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 		
-		String pattern = "dd/MM/yyyy";
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-		String data = simpleDateFormat.format(new Date());
-		Pesagem pesagem = new Pesagem(peso, tipoComida, cliente, data);
-		
-		cliente.adicionarPesagem(pesagem);
-		daoCliente.update(cliente);
-		daoPesagem.create(pesagem);
-		DAO.commit();
-
-		return pesagem;
 	}
 
 	public static List<Pesagem> listarPesagens() {
@@ -234,24 +240,24 @@ public class Fachada {
 		return usuario;
 	}
 
-	public static List<Pesagem> pesagensPorData(String data) {
-		DAO.begin();
-		List<Pesagem> pesagensNaData = daoPesagem.pesagensPorData(data);
-		DAO.commit();
-		return pesagensNaData;
-	}
-
-	public static List<Pesagem> pesagensPorCliente(int idDoCliente) {
-		DAO.begin();
-		List<Pesagem> pesagensDoCliente = daoPesagem.pesagensPorCliente(idDoCliente);
-		DAO.commit();
-		return pesagensDoCliente;
-	}
-
-	public static List<Cliente> clientesComNPesagens(int n) {
-		DAO.begin();
-		List<Cliente> clientesNPEsagens = daoCliente.clienteNPesagens(n);
-		DAO.commit();
-		return clientesNPEsagens;
-	}
+//	public static List<Pesagem> pesagensPorData(String data) {
+//		DAO.begin();
+//		List<Pesagem> pesagensNaData = daoPesagem.pesagensPorData(data);
+//		DAO.commit();
+//		return pesagensNaData;
+//	}
+//
+//	public static List<Pesagem> pesagensPorCliente(int idDoCliente) {
+//		DAO.begin();
+//		List<Pesagem> pesagensDoCliente = daoPesagem.pesagensPorCliente(idDoCliente);
+//		DAO.commit();
+//		return pesagensDoCliente;
+//	}
+//
+//	public static List<Cliente> clientesComNPesagens(int n) {
+//		DAO.begin();
+//		List<Cliente> clientesNPEsagens = daoCliente.clienteNPesagens(n);
+//		DAO.commit();
+//		return clientesNPEsagens;
+//	}
 }

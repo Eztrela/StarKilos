@@ -1,16 +1,9 @@
 package appconsole;
 
-import java.util.List;
-
-import com.db4o.ObjectContainer;
-import com.db4o.query.Query;
-
 import models.Cliente;
-import models.Pesagem;
 import regras_negocio.Fachada;
 
 public class Remover {
-	protected ObjectContainer manager;
 	
 	/*
 	 * Remocao 1 -> remover duas pesagens de um cliente
