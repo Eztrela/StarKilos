@@ -14,7 +14,7 @@ import daojpa.DAOCliente;
 import daojpa.DAOPesagem;
 import daojpa.DAOTipoComida;
 import daojpa.DAOUsuario;
-
+import jakarta.transaction.Transactional;
 import models.Cliente;
 import models.Pesagem;
 import models.TipoComida;
@@ -52,12 +52,12 @@ public class Fachada {
 
 			if (peso <= 0.0)
 				throw new Exception("Uma pesagem não pode ter peso menor ou igual a 0.");
-			
+
 			String pattern = "dd/MM/yyyy";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			String data = simpleDateFormat.format(new Date());
 			Pesagem pesagem = new Pesagem(peso, tipoComida, cliente, data);
-			
+
 			cliente.adicionarPesagem(pesagem);
 //			daoCliente.update(cliente);
 			daoPesagem.create(pesagem);
@@ -68,7 +68,6 @@ public class Fachada {
 			e.printStackTrace();
 		}
 		return null;
-		
 	}
 
 	public static List<Pesagem> listarPesagens() {
@@ -240,24 +239,24 @@ public class Fachada {
 		return usuario;
 	}
 
-//	public static List<Pesagem> pesagensPorData(String data) {
-//		DAO.begin();
-//		List<Pesagem> pesagensNaData = daoPesagem.pesagensPorData(data);
-//		DAO.commit();
-//		return pesagensNaData;
-//	}
-//
-//	public static List<Pesagem> pesagensPorCliente(int idDoCliente) {
-//		DAO.begin();
-//		List<Pesagem> pesagensDoCliente = daoPesagem.pesagensPorCliente(idDoCliente);
-//		DAO.commit();
-//		return pesagensDoCliente;
-//	}
-//
-//	public static List<Cliente> clientesComNPesagens(int n) {
-//		DAO.begin();
-//		List<Cliente> clientesNPEsagens = daoCliente.clienteNPesagens(n);
-//		DAO.commit();
-//		return clientesNPEsagens;
-//	}
+	public static List<Pesagem> pesagensPorData(String data) {
+		DAO.begin();
+		List<Pesagem> pesagensNaData = daoPesagem.readPesagensPorData(data);
+		DAO.commit();
+		return pesagensNaData;
+	}
+
+	public static List<Pesagem> readPesagensPorCliente(int idDoCliente) {
+		DAO.begin();
+		List<Pesagem> pesagensDoCliente = daoPesagem.readPesagensPorCliente(idDoCliente);
+		DAO.commit();
+		return pesagensDoCliente;
+	}
+
+	public static List<Cliente> clientesComNPesagens(int n) {
+		DAO.begin();
+		List<Cliente> clientesNPEsagens = daoCliente.readClientesComMaisDeNPesagens(n);
+		DAO.commit();
+		return clientesNPEsagens;
+	}
 }

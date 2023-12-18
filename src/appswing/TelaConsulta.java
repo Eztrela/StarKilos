@@ -30,8 +30,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.db4o.ObjectContainer;
-
 import models.Pesagem;
 import models.Cliente;
 import regras_negocio.Fachada;
@@ -140,14 +138,22 @@ public class TelaConsulta {
 						case 0:
 							String data = JOptionPane.showInputDialog("Digite a data");
 							List<Pesagem> pesagensNaData = Fachada.pesagensPorData(data);
+							
+							// DEBUG
+							System.out.println(pesagensNaData);
+							
 							listagemPesagem(pesagensNaData);
 							break;
 						case 1:
 							String idCliente = JOptionPane.showInputDialog("Digite o ID do cliente");
 							if (idCliente != null) {								
 								int idClienteint = Integer.parseInt(idCliente);
-								List<Pesagem> pesagens = Fachada.pesagensPorCliente(idClienteint);
+								List<Pesagem> pesagens = Fachada.readPesagensPorCliente(idClienteint);
 								System.out.println(pesagens);
+								
+								// DEBUG
+								System.out.println(pesagens);
+								
 								listagemPesagem(pesagens);
 							}
 							break;
@@ -156,6 +162,10 @@ public class TelaConsulta {
 							if (quantidadeN != null) {								
 								int numero = Integer.parseInt(quantidadeN);
 								List<Cliente> clientes = Fachada.clientesComNPesagens(numero);
+								
+								// DEBUG
+								System.out.println(clientes);
+								
 								listagemCliente(clientes);
 							}
 							break;

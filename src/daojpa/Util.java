@@ -6,8 +6,6 @@
  */
 package daojpa;
 
-
-
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -22,7 +20,7 @@ public class Util {
 
 	// gravar mensagens no arquivo log4j.log
 	private static final Logger logger = Logger.getLogger(Util.class);
-	
+
 	public static EntityManager conectarBanco() {
 		if (manager == null) {
 			try {
@@ -34,6 +32,8 @@ public class Util {
 				String sgbd = dados.getProperty("sgbd");
 				String banco = dados.getProperty("banco");
 				String ip = dados.getProperty("ip1"); // ip1,ip2,ip3
+				String user = dados.getProperty("user");
+				String password = dados.getProperty("password");
 
 				logger.info("sgbd => " + sgbd);
 				logger.info("banco => " + banco);
@@ -46,9 +46,10 @@ public class Util {
 					configuracoes.setProperty("jakarta.persistence.jdbc.driver", "org.postgresql.Driver");
 					configuracoes.setProperty("jakarta.persistence.jdbc.url",
 							"jdbc:postgresql://" + ip + ":5432/" + banco);
-					configuracoes.setProperty("jakarta.persistence.jdbc.user", "postgres");
-					configuracoes.setProperty("jakarta.persistence.jdbc.password", "DH-fbn9^}cRER8:GuuX}d.]i!GN?C=fI.q8DTXNp=&O>Y9=k2+wgln6fpCIrmEFz");
-					//configuracoes.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+					configuracoes.setProperty("jakarta.persistence.jdbc.user", user);
+					configuracoes.setProperty("jakarta.persistence.jdbc.password", password);
+					// configuracoes.setProperty("hibernate.dialect",
+					// "org.hibernate.dialect.PostgreSQLDialect");
 				}
 				if (sgbd.equals("mysql")) {
 					logger.info("configurando mysql");
@@ -57,7 +58,8 @@ public class Util {
 							"jdbc:mysql://" + ip + ":3306/" + banco + "?createDatabaseIfNotExist=true");
 					configuracoes.setProperty("jakarta.persistence.jdbc.user", "root");
 					configuracoes.setProperty("jakarta.persistence.jdbc.password", "");
-					//configuracoes.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+					// configuracoes.setProperty("hibernate.dialect",
+					// "org.hibernate.dialect.MySQLDialect");
 				}
 				// -----------------------------------------------------------------------------------
 				String unit_name = "hibernate" + "-" + sgbd;

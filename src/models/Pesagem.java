@@ -18,16 +18,17 @@ public class Pesagem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private double peso;
-	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private TipoComida tipoDaComida;
-	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private Cliente cliente;
 	private String data;
-	
-	public Pesagem() {}
-	
+
+	public Pesagem() {
+	}
+
 	public Pesagem(double peso, TipoComida tipoDaComida, Cliente cliente, String data) {
 		super();
 		this.peso = peso;
@@ -39,7 +40,7 @@ public class Pesagem {
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -55,17 +56,14 @@ public class Pesagem {
 	public Cliente getCliente() {
 		return cliente;
 	}
-	
+
 	public String getData() {
 		return data;
 	}
 
 	@Override
 	public String toString() {
-		return "[id=" + id +
-				", peso=" + peso +
-				", TipoComida=" + tipoDaComida.getNome() +
-				", cliente=" + cliente.getId() +
-				", data=" + data + "]";
+		return "[id=" + id + ", peso=" + peso + ", TipoComida=" + tipoDaComida.getNome() + ", cliente="
+				+ cliente.getId() + ", data=" + data + "]";
 	}
 }

@@ -35,9 +35,16 @@ public class DAOCliente extends DAO<Cliente> {
 	// consultas
 	// --------------------------------------------
 
-//	public List<Cliente> consulta2() {
-//		// cliestes com 3 alugueis
-//		TypedQuery<Cliente> q = manager.createQuery("select c from Cliente c where size(c.alugueis) =3", Cliente.class);
-//		return q.getResultList();
-//	}
+	/**
+	 * Obter todos os clientes com mais de N pesagens.
+	 * 
+	 * @param numeroDePesagens número de pesagens utilizado como filtro.
+	 * @return nenhum, um ou vários clientes com mais de N pesagens.
+	 */
+	public List<Cliente> readClientesComMaisDeNPesagens(int numeroDePesagens) {
+		TypedQuery<Cliente> query = manager
+				.createQuery("SELECT c FROM Cliente c WHERE SIZE(c.listaDePesagem) > :numeroDePesagens", Cliente.class);
+		query.setParameter("numeroDePesagens", numeroDePesagens);
+		return query.getResultList();
+	}
 }

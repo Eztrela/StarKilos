@@ -30,8 +30,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.db4o.ObjectContainer;
-
 import models.TipoComida;
 import regras_negocio.Fachada;
 

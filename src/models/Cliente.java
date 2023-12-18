@@ -20,16 +20,16 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@OneToMany(mappedBy = "cliente",cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private List<Pesagem> listaDePesagem = new ArrayList<>();
-	
+
 	public Cliente() {
-		
+
 	}
 
 	@Override
 	public String toString() {
-		return "[id=" + id  +", Pesagens=" + this.listaDePesagem + "]"; 
+		return "[id=" + id + ", Pesagens=" + this.listaDePesagem + "]";
 	}
 
 	public int getId() {
@@ -47,18 +47,18 @@ public class Cliente {
 	public void setListaDePesagem(List<Pesagem> listaDePesagem) {
 		this.listaDePesagem = listaDePesagem;
 	}
-	
+
 	public void adicionarPesagem(Pesagem pesagem) {
 		this.listaDePesagem.add(pesagem);
 	}
-	
+
 	public Pesagem localizar(int idPesagem) {
-		for (Pesagem p: this.getListaDePesagem())
+		for (Pesagem p : this.getListaDePesagem())
 			if (p.getId() == idPesagem)
 				return p;
 		return null;
 	}
-	
+
 	public boolean removerPesagem(Pesagem p) {
 		return this.listaDePesagem.remove(p);
 	}
