@@ -1,104 +1,236 @@
-13:59:49,783  INFO Util:31 - Util.conectar - lendo arquivo util.properties: 
-13:59:49,785  INFO Util:38 - sgbd => postgresql
-13:59:49,786  INFO Util:39 - banco => locadora
-13:59:49,787  INFO Util:40 - ip => localhost
-13:59:49,787  INFO Util:45 - configurando postgresql
-13:59:49,876 DEBUG logging:38 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
-13:59:49,983  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
-13:59:50,028  INFO Version:44 - HHH000412: Hibernate ORM core version 6.3.1.Final
-13:59:50,062 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
-13:59:50,063  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
-13:59:50,351  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
-13:59:50,356  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
-13:59:50,356  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/locadora]
-13:59:50,356  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
-13:59:50,357  INFO pooling:170 - HHH10001003: Autocommit mode: false
-13:59:50,359  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
-13:59:50,738  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-13:59:51,842  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-13:59:51,859  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@5c134052] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-13:59:51,893 DEBUG SQL:135 - create table Aluguel (id serial not null, datafim varchar(255), datainicio varchar(255), diaria float(53) not null, finalizado boolean not null, carro_placa varchar(255), cliente_cpf varchar(255), primary key (id))
-13:59:51,925 DEBUG SQL:135 - create table Carro (placa varchar(255) not null, alugado boolean not null, modelo varchar(255), primary key (placa))
-13:59:51,946 DEBUG SQL:135 - create table Cliente (cpf varchar(255) not null, nome varchar(255), primary key (cpf))
-13:59:51,962 DEBUG SQL:135 - create table Usuario (nome varchar(255) not null, senha varchar(255), primary key (nome))
-13:59:51,985 DEBUG SQL:135 - alter table if exists Aluguel add constraint FK6llliqraw4ddjtdmitn3pfqxl foreign key (carro_placa) references Carro
-13:59:51,996 DEBUG SQL:135 - alter table if exists Aluguel add constraint FKmcn8rc9glc0npbn94ccctc7ho foreign key (cliente_cpf) references Cliente
-13:59:52,601 DEBUG SQL:135 - select c1_0.placa,c1_0.alugado,c1_0.modelo from Carro c1_0 where c1_0.placa=?
-13:59:52,601 TRACE bind:24 - binding parameter (1:VARCHAR) <- [AAA1000]
-13:59:52,628 DEBUG SQL:135 - insert into Carro (alugado,modelo,placa) values (?,?,?)
-13:59:52,632 TRACE bind:24 - binding parameter (1:BOOLEAN) <- [false]
-13:59:52,632 TRACE bind:24 - binding parameter (2:VARCHAR) <- [palio]
-13:59:52,633 TRACE bind:24 - binding parameter (3:VARCHAR) <- [AAA1000]
-13:59:52,642 DEBUG SQL:135 - select c1_0.placa,c1_0.alugado,c1_0.modelo from Carro c1_0 where c1_0.placa=?
-13:59:52,643 TRACE bind:24 - binding parameter (1:VARCHAR) <- [BBB2000]
-13:59:52,644 DEBUG SQL:135 - insert into Carro (alugado,modelo,placa) values (?,?,?)
-13:59:52,644 TRACE bind:24 - binding parameter (1:BOOLEAN) <- [false]
-13:59:52,645 TRACE bind:24 - binding parameter (2:VARCHAR) <- [onix]
-13:59:52,645 TRACE bind:24 - binding parameter (3:VARCHAR) <- [BBB2000]
-13:59:52,647 DEBUG SQL:135 - select c1_0.placa,c1_0.alugado,c1_0.modelo from Carro c1_0 where c1_0.placa=?
-13:59:52,647 TRACE bind:24 - binding parameter (1:VARCHAR) <- [CCC3000]
-13:59:52,648 DEBUG SQL:135 - insert into Carro (alugado,modelo,placa) values (?,?,?)
-13:59:52,649 TRACE bind:24 - binding parameter (1:BOOLEAN) <- [false]
-13:59:52,649 TRACE bind:24 - binding parameter (2:VARCHAR) <- [civic]
-13:59:52,649 TRACE bind:24 - binding parameter (3:VARCHAR) <- [CCC3000]
-13:59:52,656 DEBUG SQL:135 - select c1_0.cpf,c1_0.nome from Cliente c1_0 where c1_0.cpf=?
-13:59:52,656 TRACE bind:24 - binding parameter (1:VARCHAR) <- [1111]
-13:59:52,658 DEBUG SQL:135 - insert into Cliente (nome,cpf) values (?,?)
-13:59:52,658 TRACE bind:24 - binding parameter (1:VARCHAR) <- [joao]
-13:59:52,658 TRACE bind:24 - binding parameter (2:VARCHAR) <- [1111]
-13:59:52,661 DEBUG SQL:135 - select c1_0.cpf,c1_0.nome from Cliente c1_0 where c1_0.cpf=?
-13:59:52,661 TRACE bind:24 - binding parameter (1:VARCHAR) <- [2222]
-13:59:52,662 DEBUG SQL:135 - insert into Cliente (nome,cpf) values (?,?)
-13:59:52,663 TRACE bind:24 - binding parameter (1:VARCHAR) <- [maria]
-13:59:52,663 TRACE bind:24 - binding parameter (2:VARCHAR) <- [2222]
-13:59:52,667 DEBUG SQL:135 - select c1_0.cpf,c1_0.nome from Cliente c1_0 where c1_0.cpf=?
-13:59:52,668 TRACE bind:24 - binding parameter (1:VARCHAR) <- [3333]
-13:59:52,669 DEBUG SQL:135 - insert into Cliente (nome,cpf) values (?,?)
-13:59:52,669 TRACE bind:24 - binding parameter (1:VARCHAR) <- [jose]
-13:59:52,670 TRACE bind:24 - binding parameter (2:VARCHAR) <- [3333]
-13:59:52,674 DEBUG SQL:135 - select c1_0.placa,c1_0.alugado,c1_0.modelo from Carro c1_0 where c1_0.placa=?
-13:59:52,675 TRACE bind:24 - binding parameter (1:VARCHAR) <- [AAA1000]
-13:59:52,686 DEBUG SQL:135 - select c1_0.cpf,c1_0.nome from Cliente c1_0 where c1_0.cpf=?
-13:59:52,687 TRACE bind:24 - binding parameter (1:VARCHAR) <- [1111]
-13:59:52,691 DEBUG SQL:135 - insert into Aluguel (carro_placa,cliente_cpf,datafim,datainicio,diaria,finalizado) values (?,?,?,?,?,?)
-13:59:52,691 TRACE bind:24 - binding parameter (1:VARCHAR) <- [AAA1000]
-13:59:52,691 TRACE bind:24 - binding parameter (2:VARCHAR) <- [1111]
-13:59:52,692 TRACE bind:24 - binding parameter (3:VARCHAR) <- [10/05/2022]
-13:59:52,692 TRACE bind:24 - binding parameter (4:VARCHAR) <- [01/05/2022]
-13:59:52,693 TRACE bind:24 - binding parameter (5:DOUBLE) <- [100.0]
-13:59:52,695 TRACE bind:24 - binding parameter (6:BOOLEAN) <- [false]
-13:59:52,709 DEBUG SQL:135 - update Carro set alugado=?,modelo=? where placa=?
-13:59:52,710 TRACE bind:24 - binding parameter (1:BOOLEAN) <- [true]
-13:59:52,710 TRACE bind:24 - binding parameter (2:VARCHAR) <- [palio]
-13:59:52,710 TRACE bind:24 - binding parameter (3:VARCHAR) <- [AAA1000]
-13:59:52,715 DEBUG SQL:135 - select c1_0.placa,c1_0.alugado,c1_0.modelo from Carro c1_0 where c1_0.placa=?
-13:59:52,715 TRACE bind:24 - binding parameter (1:VARCHAR) <- [BBB2000]
-13:59:52,716 DEBUG SQL:135 - select c1_0.cpf,c1_0.nome from Cliente c1_0 where c1_0.cpf=?
-13:59:52,717 TRACE bind:24 - binding parameter (1:VARCHAR) <- [2222]
-13:59:52,718 DEBUG SQL:135 - insert into Aluguel (carro_placa,cliente_cpf,datafim,datainicio,diaria,finalizado) values (?,?,?,?,?,?)
-13:59:52,719 TRACE bind:24 - binding parameter (1:VARCHAR) <- [BBB2000]
-13:59:52,719 TRACE bind:24 - binding parameter (2:VARCHAR) <- [2222]
-13:59:52,719 TRACE bind:24 - binding parameter (3:VARCHAR) <- [10/05/2022]
-13:59:52,719 TRACE bind:24 - binding parameter (4:VARCHAR) <- [01/05/2022]
-13:59:52,719 TRACE bind:24 - binding parameter (5:DOUBLE) <- [200.0]
-13:59:52,719 TRACE bind:24 - binding parameter (6:BOOLEAN) <- [false]
-13:59:52,721 DEBUG SQL:135 - update Carro set alugado=?,modelo=? where placa=?
-13:59:52,721 TRACE bind:24 - binding parameter (1:BOOLEAN) <- [true]
-13:59:52,722 TRACE bind:24 - binding parameter (2:VARCHAR) <- [onix]
-13:59:52,722 TRACE bind:24 - binding parameter (3:VARCHAR) <- [BBB2000]
-13:59:52,723 DEBUG SQL:135 - select c1_0.placa,c1_0.alugado,c1_0.modelo from Carro c1_0 where c1_0.placa=?
-13:59:52,724 TRACE bind:24 - binding parameter (1:VARCHAR) <- [CCC3000]
-13:59:52,725 DEBUG SQL:135 - select c1_0.cpf,c1_0.nome from Cliente c1_0 where c1_0.cpf=?
-13:59:52,725 TRACE bind:24 - binding parameter (1:VARCHAR) <- [2222]
-13:59:52,727 DEBUG SQL:135 - insert into Aluguel (carro_placa,cliente_cpf,datafim,datainicio,diaria,finalizado) values (?,?,?,?,?,?)
-13:59:52,727 TRACE bind:24 - binding parameter (1:VARCHAR) <- [CCC3000]
-13:59:52,727 TRACE bind:24 - binding parameter (2:VARCHAR) <- [2222]
-13:59:52,727 TRACE bind:24 - binding parameter (3:VARCHAR) <- [10/05/2022]
-13:59:52,727 TRACE bind:24 - binding parameter (4:VARCHAR) <- [01/05/2022]
-13:59:52,728 TRACE bind:24 - binding parameter (5:DOUBLE) <- [300.0]
-13:59:52,728 TRACE bind:24 - binding parameter (6:BOOLEAN) <- [false]
-13:59:52,729 DEBUG SQL:135 - update Carro set alugado=?,modelo=? where placa=?
-13:59:52,730 TRACE bind:24 - binding parameter (1:BOOLEAN) <- [true]
-13:59:52,730 TRACE bind:24 - binding parameter (2:VARCHAR) <- [civic]
-13:59:52,730 TRACE bind:24 - binding parameter (3:VARCHAR) <- [CCC3000]
-13:59:52,732  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/locadora]
+00:24:07,257  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:24:07,260  INFO Util:38 - sgbd => postgresql
+00:24:07,260  INFO Util:39 - banco => db_starkilos
+00:24:07,260  INFO Util:40 - ip => localhost
+00:24:07,260  INFO Util:45 - configurando postgresql
+00:24:07,286 DEBUG logging:38 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+00:24:07,375  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:24:07,431  INFO Version:44 - HHH000412: Hibernate ORM core version 6.3.1.Final
+00:24:07,467 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:24:07,468  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:24:07,683  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:24:07,687  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:24:07,687  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:24:07,687  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:24:07,688  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:24:07,690  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:24:07,914  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:24:08,881  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:24:08,900  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@61df0984] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:24:09,221 DEBUG SQL:135 - select u1_0.id,u1_0.nome,u1_0.senha from Usuario u1_0
+00:24:13,380 DEBUG SQL:135 - select u1_0.id,u1_0.nome,u1_0.senha from Usuario u1_0 where u1_0.nome=?
+00:24:13,381 TRACE bind:24 - binding parameter (1:VARCHAR) <- [fausto]
+00:24:13,437  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:24:14,692  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:24:14,693  INFO Util:38 - sgbd => postgresql
+00:24:14,693  INFO Util:39 - banco => db_starkilos
+00:24:14,693  INFO Util:40 - ip => localhost
+00:24:14,693  INFO Util:45 - configurando postgresql
+00:24:14,697  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:24:14,699 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:24:14,699  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:24:14,721  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:24:14,722  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:24:14,722  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:24:14,722  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:24:14,722  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:24:14,722  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:24:14,756  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:24:14,807  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:24:14,808  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@75f6fa81] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:24:19,416 DEBUG SQL:135 - select c1_0.id,ldp1_0.cliente_id,ldp1_0.id,ldp1_0.data,ldp1_0.peso,ldp1_0.tipoDaComida_nome from Cliente c1_0 join Pesagem ldp1_0 on c1_0.id=ldp1_0.cliente_id where (select count(1) from Pesagem ldp2_0 where c1_0.id=ldp2_0.cliente_id)>?
+00:24:19,417 TRACE bind:24 - binding parameter (1:INTEGER) <- [0]
+00:24:25,401 DEBUG SQL:135 - select c1_0.id,ldp1_0.cliente_id,ldp1_0.id,ldp1_0.data,ldp1_0.peso,ldp1_0.tipoDaComida_nome from Cliente c1_0 join Pesagem ldp1_0 on c1_0.id=ldp1_0.cliente_id where (select count(1) from Pesagem ldp2_0 where c1_0.id=ldp2_0.cliente_id)>?
+00:24:25,402 TRACE bind:24 - binding parameter (1:INTEGER) <- [1]
+00:24:41,688 DEBUG SQL:135 - select p1_0.id,c1_0.id,p1_0.data,p1_0.peso,tdc1_0.nome,tdc1_0.preco from Pesagem p1_0 join Cliente c1_0 on c1_0.id=p1_0.cliente_id join TipoComida tdc1_0 on tdc1_0.nome=p1_0.tipoDaComida_nome where p1_0.data like ? escape ''
+00:24:41,689 TRACE bind:24 - binding parameter (1:VARCHAR) <- [19/12/2023]
+00:24:49,158  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:24:51,011  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:24:51,012  INFO Util:38 - sgbd => postgresql
+00:24:51,012  INFO Util:39 - banco => db_starkilos
+00:24:51,012  INFO Util:40 - ip => localhost
+00:24:51,012  INFO Util:45 - configurando postgresql
+00:24:51,016  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:24:51,017 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:24:51,018  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:24:51,037  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:24:51,037  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:24:51,037  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:24:51,037  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:24:51,037  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:24:51,038  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:24:51,072  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:24:51,116  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:24:51,116  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@5d018fc7] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:24:51,157 DEBUG SQL:135 - select tc1_0.nome,tc1_0.preco from TipoComida tc1_0 order by tc1_0.nome
+00:24:52,105  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:24:52,830  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:24:52,830  INFO Util:38 - sgbd => postgresql
+00:24:52,830  INFO Util:39 - banco => db_starkilos
+00:24:52,830  INFO Util:40 - ip => localhost
+00:24:52,830  INFO Util:45 - configurando postgresql
+00:24:52,834  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:24:52,836 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:24:52,836  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:24:52,854  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:24:52,854  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:24:52,855  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:24:52,855  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:24:52,855  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:24:52,855  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:24:52,887  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:24:52,931  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:24:52,932  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@8a7f5e1] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:24:52,972 DEBUG SQL:135 - select p1_0.id,c1_0.id,p1_0.data,p1_0.peso,tdc1_0.nome,tdc1_0.preco from Pesagem p1_0 join TipoComida tdc1_0 on tdc1_0.nome=p1_0.tipoDaComida_nome join Cliente c1_0 on c1_0.id=p1_0.cliente_id order by p1_0.id
+00:25:01,237 DEBUG SQL:135 - select p1_0.id,p1_0.cliente_id,p1_0.data,p1_0.peso,p1_0.tipoDaComida_nome from Pesagem p1_0 where p1_0.id=?
+00:25:01,238 TRACE bind:24 - binding parameter (1:INTEGER) <- [2]
+00:25:01,241 DEBUG SQL:135 - select c1_0.id from Cliente c1_0 where c1_0.id=?
+00:25:01,241 TRACE bind:24 - binding parameter (1:INTEGER) <- [2]
+00:25:01,244 DEBUG SQL:135 - select ldp1_0.cliente_id,ldp1_0.id,ldp1_0.data,ldp1_0.peso,ldp1_0.tipoDaComida_nome from Pesagem ldp1_0 where ldp1_0.cliente_id=?
+00:25:01,244 TRACE bind:24 - binding parameter (1:INTEGER) <- [2]
+00:25:01,254 DEBUG SQL:135 - delete from Pesagem where id=?
+00:25:01,255 TRACE bind:24 - binding parameter (1:INTEGER) <- [2]
+00:25:01,258 DEBUG SQL:135 - select p1_0.id,c1_0.id,p1_0.data,p1_0.peso,tdc1_0.nome,tdc1_0.preco from Pesagem p1_0 join TipoComida tdc1_0 on tdc1_0.nome=p1_0.tipoDaComida_nome join Cliente c1_0 on c1_0.id=p1_0.cliente_id order by p1_0.id
+00:25:02,383  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:04,039  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:25:04,040  INFO Util:38 - sgbd => postgresql
+00:25:04,040  INFO Util:39 - banco => db_starkilos
+00:25:04,040  INFO Util:40 - ip => localhost
+00:25:04,040  INFO Util:45 - configurando postgresql
+00:25:04,044  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:25:04,046 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:25:04,046  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:25:04,065  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:25:04,065  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:25:04,065  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:04,065  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:25:04,066  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:25:04,066  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:25:04,101  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:25:04,145  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:25:04,146  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3c08c4cf] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:25:04,188 DEBUG SQL:135 - select p1_0.id,c1_0.id,p1_0.data,p1_0.peso,tdc1_0.nome,tdc1_0.preco from Pesagem p1_0 join TipoComida tdc1_0 on tdc1_0.nome=p1_0.tipoDaComida_nome join Cliente c1_0 on c1_0.id=p1_0.cliente_id order by p1_0.id
+00:25:12,085  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:13,177  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:25:13,177  INFO Util:38 - sgbd => postgresql
+00:25:13,177  INFO Util:39 - banco => db_starkilos
+00:25:13,177  INFO Util:40 - ip => localhost
+00:25:13,177  INFO Util:45 - configurando postgresql
+00:25:13,181  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:25:13,183 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:25:13,183  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:25:13,199  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:25:13,199  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:25:13,200  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:13,200  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:25:13,200  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:25:13,200  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:25:13,231  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:25:13,267  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:25:13,267  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@31351c2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:25:13,302 DEBUG SQL:135 - select c1_0.id,ldp1_0.cliente_id,ldp1_0.id,ldp1_0.data,ldp1_0.peso,ldp1_0.tipoDaComida_nome from Cliente c1_0 left join Pesagem ldp1_0 on c1_0.id=ldp1_0.cliente_id order by c1_0.id
+00:25:16,029  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:16,958  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:25:16,959  INFO Util:38 - sgbd => postgresql
+00:25:16,959  INFO Util:39 - banco => db_starkilos
+00:25:16,959  INFO Util:40 - ip => localhost
+00:25:16,959  INFO Util:45 - configurando postgresql
+00:25:16,962  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:25:16,964 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:25:16,964  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:25:16,981  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:25:16,981  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:25:16,982  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:16,982  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:25:16,982  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:25:16,982  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:25:17,014  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:25:17,048  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:25:17,048  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6b70fca2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:25:17,087 DEBUG SQL:135 - select tc1_0.nome,tc1_0.preco from TipoComida tc1_0 order by tc1_0.nome
+00:25:22,729 DEBUG SQL:135 - select tc1_0.nome,tc1_0.preco from TipoComida tc1_0 where tc1_0.nome=?
+00:25:22,730 TRACE bind:24 - binding parameter (1:VARCHAR) <- [Almoco]
+00:25:22,732 DEBUG SQL:135 - select p1_0.id,c1_0.id,p1_0.data,p1_0.peso,tdc1_0.nome,tdc1_0.preco from Pesagem p1_0 join TipoComida tdc1_0 on tdc1_0.nome=p1_0.tipoDaComida_nome join Cliente c1_0 on c1_0.id=p1_0.cliente_id order by p1_0.id
+00:25:22,733 DEBUG SQL:135 - select ldp1_0.cliente_id,ldp1_0.id,ldp1_0.data,ldp1_0.peso,ldp1_0.tipoDaComida_nome from Pesagem ldp1_0 where ldp1_0.cliente_id=?
+00:25:22,734 TRACE bind:24 - binding parameter (1:INTEGER) <- [1]
+00:25:22,736 DEBUG SQL:135 - delete from Pesagem where id=?
+00:25:22,736 TRACE bind:24 - binding parameter (1:INTEGER) <- [1]
+00:25:22,736 DEBUG SQL:135 - delete from TipoComida where nome=?
+00:25:22,736 TRACE bind:24 - binding parameter (1:VARCHAR) <- [Almoco]
+00:25:22,738 DEBUG SQL:135 - select tc1_0.nome,tc1_0.preco from TipoComida tc1_0 order by tc1_0.nome
+00:25:23,733  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:24,618  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:25:24,618  INFO Util:38 - sgbd => postgresql
+00:25:24,619  INFO Util:39 - banco => db_starkilos
+00:25:24,619  INFO Util:40 - ip => localhost
+00:25:24,619  INFO Util:45 - configurando postgresql
+00:25:24,622  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:25:24,624 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:25:24,624  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:25:24,639  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:25:24,640  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:25:24,640  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:24,640  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:25:24,640  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:25:24,640  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:25:24,672  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:25:24,705  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:25:24,705  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@31cca257] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:25:24,741 DEBUG SQL:135 - select p1_0.id,c1_0.id,p1_0.data,p1_0.peso,tdc1_0.nome,tdc1_0.preco from Pesagem p1_0 join TipoComida tdc1_0 on tdc1_0.nome=p1_0.tipoDaComida_nome join Cliente c1_0 on c1_0.id=p1_0.cliente_id order by p1_0.id
+00:25:29,537  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:33,473  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:25:33,473  INFO Util:38 - sgbd => postgresql
+00:25:33,474  INFO Util:39 - banco => db_starkilos
+00:25:33,474  INFO Util:40 - ip => localhost
+00:25:33,474  INFO Util:45 - configurando postgresql
+00:25:33,477  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:25:33,478 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:25:33,479  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:25:33,494  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:25:33,495  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:25:33,495  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:25:33,495  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:25:33,495  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:25:33,495  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:25:33,527  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:25:33,560  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:25:33,561  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3ecd17aa] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:25:33,595 DEBUG SQL:135 - select c1_0.id,ldp1_0.cliente_id,ldp1_0.id,ldp1_0.data,ldp1_0.peso,ldp1_0.tipoDaComida_nome from Cliente c1_0 left join Pesagem ldp1_0 on c1_0.id=ldp1_0.cliente_id order by c1_0.id
+00:25:43,946  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:26:27,034  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:26:27,035  INFO Util:38 - sgbd => postgresql
+00:26:27,035  INFO Util:39 - banco => db_starkilos
+00:26:27,035  INFO Util:40 - ip => localhost
+00:26:27,035  INFO Util:45 - configurando postgresql
+00:26:27,038  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:26:27,040 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:26:27,040  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:26:27,056  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:26:27,056  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:26:27,056  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:26:27,057  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:26:27,057  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:26:27,057  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:26:27,089  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:26:27,122  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:26:27,122  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@26d4d1ed] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:26:28,394  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]
+00:26:29,298  INFO Util:29 - Util.conectar - lendo arquivo util.properties: 
+00:26:29,299  INFO Util:38 - sgbd => postgresql
+00:26:29,299  INFO Util:39 - banco => db_starkilos
+00:26:29,299  INFO Util:40 - ip => localhost
+00:26:29,299  INFO Util:45 - configurando postgresql
+00:26:29,302  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: hibernate-postgresql]
+00:26:29,303 DEBUG RegionFactoryInitiator:122 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+00:26:29,303  INFO RegionFactoryInitiator:50 - HHH000026: Second-level cache disabled
+00:26:29,318  WARN pooling:80 - HHH10001002: Using built-in connection pool (not intended for production use)
+00:26:29,318  INFO pooling:135 - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+00:26:29,318  INFO pooling:157 - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/db_starkilos]
+00:26:29,318  INFO pooling:166 - HHH10001001: Connection properties: {password=****, user=postgres}
+00:26:29,318  INFO pooling:170 - HHH10001003: Autocommit mode: false
+00:26:29,319  INFO pooling:366 - HHH10001115: Connection pool size: 20 (min=1)
+00:26:29,351  WARN deprecation:152 - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+00:26:29,383  INFO JtaPlatformInitiator:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+00:26:29,383  INFO access:52 - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@644ee20c] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+00:26:29,419 DEBUG SQL:135 - select p1_0.id,c1_0.id,p1_0.data,p1_0.peso,tdc1_0.nome,tdc1_0.preco from Pesagem p1_0 join TipoComida tdc1_0 on tdc1_0.nome=p1_0.tipoDaComida_nome join Cliente c1_0 on c1_0.id=p1_0.cliente_id order by p1_0.id
+00:26:32,200  INFO pooling:601 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/db_starkilos]

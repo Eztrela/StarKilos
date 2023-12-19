@@ -43,7 +43,7 @@ public class DAOCliente extends DAO<Cliente> {
 	 */
 	public List<Cliente> readClientesComMaisDeNPesagens(int numeroDePesagens) {
 		TypedQuery<Cliente> query = manager
-				.createQuery("SELECT c FROM Cliente c WHERE SIZE(c.listaDePesagem) > :numeroDePesagens", Cliente.class);
+				.createQuery("SELECT c FROM Cliente c JOIN FETCH c.listaDePesagem WHERE SIZE(c.listaDePesagem) > :numeroDePesagens", Cliente.class);
 		query.setParameter("numeroDePesagens", numeroDePesagens);
 		return query.getResultList();
 	}
